@@ -1,0 +1,39 @@
+{
+    "activities": [
+        {
+            "type": "jetpack-audit",
+            "action_trigger": "jetpack_update_plugins_change",
+            "jetpack_version": "5.1",
+            "ts_utc": 1499520615674,
+            "action": "update_available",
+            "group": "plugin",
+            "blog_id": 127069264,
+            "actor": {
+                "is_ajax": false,
+                "user_email": "",
+                "is_xmlrpc": false,
+                "is_wp_rest": false,
+                "is_wp_admin": false,
+                "ip": "66.155.9.171",
+                "user_roles": "",
+                "login": "",
+                "display_name": "",
+                "wpcom_user_id": 0,
+                "external_user_id": 0,
+                "is_rest": false,
+                "is_cron": true,
+                "translated_role": "",
+                "avatar_url": "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mm"
+            },
+            "a8c_internal": false,
+            "name": "plugin__update_available",
+            "site_id": 2,
+            "object": {
+                "plugin": [
+                    {
+                        "name": "Gutenberg",
+                        "version": "0.4.0",
+                        "slug": "gutenberg/gutenberg.php"
+                    }
+                ]
+            }

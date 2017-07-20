@@ -399,6 +399,12 @@ NSString * const WPCalypsoDashboardPath = @"https://wordpress.com/stats/";
                                                      [weakSelf showStats];
                                                  }]];
 
+    [rows addObject:[[BlogDetailsRow alloc] initWithTitle:NSLocalizedString(@"Activity", @"Noun. Links to a blog's Activity screen.")
+                                                    image:[Gridicon iconOfType:GridiconTypeStatsAlt]
+                                                 callback:^{
+                                                     [weakSelf showActivity];
+                                                 }]];
+
     if ([self.blog supports:BlogFeaturePlans]) {
         BlogDetailsRow *row = [[BlogDetailsRow alloc] initWithTitle:NSLocalizedString(@"Plans", @"Action title. Noun. Links to a blog's Plans screen.")
                                                          identifier:BlogDetailsPlanCellIdentifier
@@ -964,6 +970,12 @@ NSString * const WPCalypsoDashboardPath = @"https://wordpress.com/stats/";
     } else {
         [self showDetailViewController:statsView sender:self];
     }
+}
+
+- (void)showActivity
+{
+    ActivityListViewController *controller = [ActivityListViewController controllerWithBlog:self.blog];
+    [self showDetailViewController:controller sender:self];
 }
 
 - (void)showThemes

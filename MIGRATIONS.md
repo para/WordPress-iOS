@@ -3,6 +3,10 @@
 This file documents changes in the data model. Please explain any changes to the
 data model as well as any custom migrations.
 
+## WordPress 62
+- @elibud 2017-07-17
+- `Activity` and `ActivityActor` entities added.
+
 ## WordPress 61
 - @kurzee 2017-06-16
 - `Media` added `localThumbnailIdentifier` string property. Stores the locally generated thumbnail identifier.
