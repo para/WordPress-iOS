@@ -1,5 +1,7 @@
 import Foundation
 
+/// Represents a plugin installed on a site and it's state.
+///
 public struct PluginState {
     public let id: String
     public let slug: String

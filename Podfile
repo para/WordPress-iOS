@@ -101,6 +101,7 @@ target 'WordPressKit' do
 
   shared_with_networking_pods
   shared_with_all_pods
+  pod 'Alamofire'
 
   target 'WordPressKitTests' do
     inherit! :search_paths

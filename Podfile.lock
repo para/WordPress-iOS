@@ -105,6 +105,7 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (= 1.8.4)
   - AFNetworking (= 3.1.0)
+  - Alamofire
   - Automattic-Tracks-iOS (from `https://github.com/Automattic/Automattic-Tracks-iOS.git`, tag `0.2.0`)
   - BuddyBuildSDK (= 1.0.16)
   - CocoaLumberjack (= 3.2.0)
@@ -183,6 +184,6 @@ SPEC CHECKSUMS:
   WPMediaPicker: 771abfe3a334119a909ebe403188498e4a2b01e8
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
-PODFILE CHECKSUM: e18b82c32b735f3ddf2707dfd58a2ad3ed4ec2d6
+PODFILE CHECKSUM: 29fd50c18c6f63044992ba1846326349bc350d44
 
 COCOAPODS: 1.2.1
