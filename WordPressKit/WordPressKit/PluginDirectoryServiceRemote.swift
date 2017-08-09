@@ -4,9 +4,11 @@ import Foundation
 public struct PluginDirectoryServiceRemote {
     let session = URLSession()
 
-    struct ParseError: Error {}
+    public init() {}
 
-    func fetchPluginInfo(slug: String, success: @escaping (PluginInfo) -> Void, failure: @escaping (Error) -> Void) {
+    public struct ParseError: Error {}
+
+    public func fetchPluginInfo(slug: String, success: @escaping (PluginInfo) -> Void, failure: @escaping (Error) -> Void) {
         guard let url = URL(string: "https://api.wordpress.org/plugins/info/1.0/\(slug).json") else {
             return
         }

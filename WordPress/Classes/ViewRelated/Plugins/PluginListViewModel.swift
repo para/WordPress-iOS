@@ -1,7 +1,16 @@
 enum PluginListViewModel {
     case loading
-    case ready([PluginState])
+    case ready([Item])
     case error(String)
+
+    struct Item {
+        let state: PluginState
+        let icon: URL?
+
+        func withIcon(_ icon: URL?) -> Item {
+            return Item(state: state, icon: icon)
+        }
+    }
 
     var noResultsViewModel: WPNoResultsView.Model? {
         switch self {
@@ -32,9 +41,9 @@ enum PluginListViewModel {
         switch self {
         case .loading, .error:
             return .Empty
-        case .ready(let pluginStates):
-            let rows = pluginStates.map({ pluginState in
-                return PluginListRow(name: pluginState.name, state: pluginState.stateDescription)
+        case .ready(let items):
+            let rows = items.map({ item in
+                return PluginListRow(name: item.state.name, state: item.state.stateDescription, iconURL: item.icon)
             })
             return ImmuTable(sections: [
                 ImmuTableSection(rows: rows)
