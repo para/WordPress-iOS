@@ -15,6 +15,7 @@ struct PluginListRow: ImmuTableRow {
         cell.detailTextLabel?.text = state
         cell.selectionStyle = .none
         let placeholderIcon = Gridicon.iconOfType(.plugins)
+        cell.imageView?.contentMode = .scaleAspectFit
         if let iconURL = iconURL {
             cell.imageView?.setImageWith(iconURL, placeholderImage: placeholderIcon)
         } else {
