@@ -1,6 +1,12 @@
 import UIKit
 import WordPressShared
 
+/// A view to "fake" progress when loading web pages.
+///
+/// Since UIWebView doesn't offer any real or estimate loading progress, this
+/// shows an initial indication of progress and animates to a full bar when the
+/// web view finishes loading.
+///
 class WebProgressView: UIProgressView {
     override init(frame: CGRect) {
         super.init(frame: frame)
