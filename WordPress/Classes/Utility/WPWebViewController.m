@@ -457,22 +457,6 @@ static NSInteger const WPWebViewErrorPluginHandledLoad = 204;
     return request;
 }
 
-- (NSURL *)authUrlFromUrl:(NSURL *)url
-{
-    // Note:
-    // WordPress CDN doesn't really deal with Auth. We'll replace `.files.wordpress.com` with `.wordpress`.
-    // Don't worry, we'll redirect the user to the pristine URL afterwards. Issue #4983
-    //
-    NSURLComponents *components = [NSURLComponents new];
-    components.scheme           = url.scheme;
-    components.host             = [url.host stringByReplacingOccurrencesOfString:@".files.wordpress.com"
-                                                                      withString:@".wordpress.com"];
-    components.path             = @"/wp-login.php";
-
-    return components.URL;
-}
-
-
 #pragma mark - Static Helpers
 
 + (instancetype)webViewControllerWithURL:(NSURL *)url
