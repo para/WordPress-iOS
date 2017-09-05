@@ -112,6 +112,7 @@
 #import "WPAsyncBlockOperation.h"
 #import "WPBlogTableViewCell.h"
 #import "WPBlogSelectorButton.h"
+#import "WPCookie.h"
 #import "WPUploadStatusButton.h"
 #import "WPLegacyEditPostViewController.h"
 #import "WPError.h"

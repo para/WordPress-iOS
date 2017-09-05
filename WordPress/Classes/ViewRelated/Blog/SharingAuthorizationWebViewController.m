@@ -60,10 +60,7 @@ static NSString * const SharingAuthorizationAccessDenied = @"error=access_denied
     NSParameterAssert(blog);
     
     SharingAuthorizationWebViewController *webViewController = [[self alloc] initWithNibName:@"WPWebViewController" bundle:nil];
-
-    webViewController.authToken = blog.authToken;
-    webViewController.username = blog.account.username;
-    webViewController.wpLoginURL = [NSURL URLWithString:SharingAuthorizationLoginURL];
+    [webViewController authenticateWithBlog:blog];
     webViewController.publicizer = publicizer;
     webViewController.secureInteraction = YES;
     webViewController.url = connectionURL;
