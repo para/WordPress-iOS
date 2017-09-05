@@ -19,16 +19,10 @@
 static NSInteger const WPWebViewErrorAjaxCancelled          = -999;
 static NSInteger const WPWebViewErrorFrameLoadInterrupted   = 102;
 
-static CGFloat const WPWebViewProgressInitial               = 0.1;
-static CGFloat const WPWebViewProgressFinal                 = 1.0;
-
 static CGFloat const WPWebViewToolbarShownConstant          = 0.0;
 static CGFloat const WPWebViewToolbarHiddenConstant         = -44.0;
 
 static CGFloat const WPWebViewAnimationShortDuration        = 0.1;
-static CGFloat const WPWebViewAnimationLongDuration         = 0.4;
-static CGFloat const WPWebViewAnimationAlphaVisible         = 1.0;
-static CGFloat const WPWebViewAnimationAlphaHidden          = 0.0;
 
 static NSString *const WPComReferrerURL = @"https://wordpress.com";
 
@@ -40,7 +34,7 @@ static NSInteger const WPWebViewErrorPluginHandledLoad = 204;
 @interface WPWebViewController () <UIWebViewDelegate>
 
 @property (nonatomic,   weak) IBOutlet UIWebView                *webView;
-@property (nonatomic,   weak) IBOutlet UIProgressView           *progressView;
+@property (nonatomic,   weak) IBOutlet WebProgressView           *progressView;
 @property (nonatomic, strong) UIBarButtonItem          *dismissButton;
 @property (nonatomic, strong) UIBarButtonItem          *optionsButton;
 
@@ -142,9 +136,7 @@ static NSInteger const WPWebViewErrorPluginHandledLoad = 204;
     
     self.dismissButton.tintColor            = [WPStyleGuide greyLighten10];
     self.optionsButton.tintColor            = [WPStyleGuide greyLighten10];
-    
-    self.progressView.progressTintColor     = [WPStyleGuide lightBlue];
-    
+
     self.navigationItem.leftBarButtonItem   = self.dismissButton;
 }
 
@@ -391,7 +383,7 @@ static NSInteger const WPWebViewErrorPluginHandledLoad = 204;
         return;
     }
     
-    [self startProgress];
+    [self.progressView startedLoading];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -406,7 +398,7 @@ static NSInteger const WPWebViewErrorPluginHandledLoad = 204;
     // Refresh the Interface
     self.loading = NO;
     
-    [self finishProgress];
+    [self.progressView finishedLoading];
     [self refreshInterface];
 
     // Don't show Ajax Cancelled or Frame Load Interrupted errors
@@ -435,30 +427,10 @@ static NSInteger const WPWebViewErrorPluginHandledLoad = 204;
     
     self.loading = NO;
     
-    [self finishProgress];
+    [self.progressView finishedLoading];
     [self refreshInterface];
     [self showBottomToolbarIfNeeded];
     [self scrollToBottomIfNeeded];
-}
-
-
-#pragma mark - Progress Bar Helpers
-
-- (void)startProgress
-{
-    self.progressView.alpha     = WPWebViewAnimationAlphaVisible;
-    self.progressView.progress  = WPWebViewProgressInitial;
-}
-
-- (void)finishProgress
-{
-    [UIView animateWithDuration:WPWebViewAnimationLongDuration animations:^{
-        self.progressView.progress = WPWebViewProgressFinal;
-    } completion:^(BOOL finished) {
-       [UIView animateWithDuration:WPWebViewAnimationShortDuration animations:^{
-           self.progressView.alpha = WPWebViewAnimationAlphaHidden;
-       }];
-    }];
 }
 
 
