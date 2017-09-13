@@ -10,7 +10,7 @@
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
-            buildForArchiving = "YES"
+            buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
@@ -21,45 +21,17 @@
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
-            buildForTesting = "NO"
+            buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FFF96F8119EBE7FB00DFC821"
-               BuildableName = "UITests.xctest"
-               BlueprintName = "UITests"
-               ReferencedContainer = "container:WordPress.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "NO"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E16AB92914D978240047A2E5"
-               BuildableName = "WordPressTest.xctest"
-               BlueprintName = "WordPressTest"
-               ReferencedContainer = "container:WordPress.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "NO"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8511CFB51C607A7000B7CEED"
-               BuildableName = "WordPressScreenshotGeneration.xctest"
-               BlueprintName = "WordPressScreenshotGeneration"
-               ReferencedContainer = "container:WordPress.xcodeproj">
+               BlueprintIdentifier = "829DD1461EC9EED200AB8C12"
+               BuildableName = "WordPressSharedTests.xctest"
+               BlueprintName = "WordPressSharedTests"
+               ReferencedContainer = "container:../WordPressShared/WordPressShared.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -69,17 +41,57 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       language = ""
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FF27168E1CAAC87A0006E2D4"
-               BuildableName = "WordPressUITests.xctest"
-               BlueprintName = "WordPressUITests"
+               BlueprintIdentifier = "E16AB92914D978240047A2E5"
+               BuildableName = "WordPressTest.xctest"
+               BlueprintName = "WordPressTest"
                ReferencedContainer = "container:WordPress.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RemoteTestCase">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "931CFFD01EBCB016005E6BB4"
+               BuildableName = "WordPressComStatsiOSTests.xctest"
+               BlueprintName = "WordPressComStatsiOSTests"
+               ReferencedContainer = "container:../WordPressComStatsiOS/WordPressComStatsiOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "829DD1461EC9EED200AB8C12"
+               BuildableName = "WordPressSharedTests.xctest"
+               BlueprintName = "WordPressSharedTests"
+               ReferencedContainer = "container:../WordPressShared/WordPressShared.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9368C7831EC5EF1B0092CE8E"
+               BuildableName = "WordPressKitTests.xctest"
+               BlueprintName = "WordPressKitTests"
+               ReferencedContainer = "container:../WordPressKit/WordPressKit.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RemoteTestCase">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
@@ -115,6 +127,19 @@
             ReferencedContainer = "container:WordPress.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-debugPinghub"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -124,7 +149,8 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
@@ -132,7 +158,7 @@
             BlueprintName = "WordPress"
             ReferencedContainer = "container:WordPress.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
