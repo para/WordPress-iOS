@@ -1,7 +1,7 @@
 #import "InsightsPostingActivityCollectionViewController.h"
-#import "InsightsPostingActivityCollectionViewCell.h"
 #import "InsightsContributionGraphHeaderView.h"
 #import "InsightsContributionGraphFooterView.h"
+#import "WordPressComStatsiOS/WordPressComStatsiOS-Swift.h"
 
 static NSString *const PostActivityCollectionCellIdentifier = @"PostActivityCollectionViewCell";
 static NSString *const PostActivityCollectionHeaderIdentifier = @"PostingActivityCollectionHeaderView";

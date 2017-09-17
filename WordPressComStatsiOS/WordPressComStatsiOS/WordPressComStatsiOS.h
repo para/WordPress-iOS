@@ -20,7 +20,6 @@ FOUNDATION_EXPORT const unsigned char WordPressComStatsiOSVersionString[];
 #import <WordPressComStatsiOS/InsightsContributionGraphFooterView.h>
 #import <WordPressComStatsiOS/InsightsContributionGraphHeaderView.h>
 #import <WordPressComStatsiOS/InsightsMostPopularTableViewCell.h>
-#import <WordPressComStatsiOS/InsightsPostingActivityCollectionViewCell.h>
 #import <WordPressComStatsiOS/InsightsPostingActivityCollectionViewController.h>
 #import <WordPressComStatsiOS/InsightsPostingActivityTableViewCell.h>
 #import <WordPressComStatsiOS/InsightsSectionHeaderTableViewCell.h>
@@ -45,5 +44,3 @@ FOUNDATION_EXPORT const unsigned char WordPressComStatsiOSVersionString[];
 #import <WordPressComStatsiOS/WPStatsGraphViewController.h>
 #import <WordPressComStatsiOS/WPStatsViewController.h>
 #import <WordPressComStatsiOS/WPStyleGuide+Stats.h>
-
-
