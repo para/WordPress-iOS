@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		74A735A91F6F0B1C0092945D /* InsightsPostingActivityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A735A81F6F0B1C0092945D /* InsightsPostingActivityCollectionViewCell.swift */; };
+		74A735AB1F6F202B0092945D /* WPStatsContributionGraph2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A735AA1F6F202B0092945D /* WPStatsContributionGraph2.swift */; };
 		82706F971ECA2D2300155CBF /* WordPressShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82ED26051ECA1967006D9E6D /* WordPressShared.framework */; };
 		930F52BD1ECF8AF8002F921B /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930F52BC1ECF8AF8002F921B /* WordPressKit.framework */; };
 		931C032E1EBCB120005E6BB4 /* AppExtensionUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 931CFFF91EBCB11F005E6BB4 /* AppExtensionUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -422,6 +423,7 @@
 		08D90DD39153D26BDC947404 /* Pods_WordPressComStatsiOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WordPressComStatsiOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5354D6320FE5A9CBEAFDD104 /* Pods-WordPressComStatsiOS.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressComStatsiOS.release-internal.xcconfig"; path = "../Pods/Target Support Files/Pods-WordPressComStatsiOS/Pods-WordPressComStatsiOS.release-internal.xcconfig"; sourceTree = "<group>"; };
 		74A735A81F6F0B1C0092945D /* InsightsPostingActivityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsPostingActivityCollectionViewCell.swift; sourceTree = "<group>"; };
+		74A735AA1F6F202B0092945D /* WPStatsContributionGraph2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPStatsContributionGraph2.swift; sourceTree = "<group>"; };
 		82ED25FF1ECA1782006D9E6D /* WordPressShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WordPressShared.framework; path = "../WordPressShared/build/Debug-iphoneos/WordPressShared.framework"; sourceTree = "<group>"; };
 		82ED26011ECA1944006D9E6D /* WordPressComStatsiOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = WordPressComStatsiOS.xcodeproj; sourceTree = "<group>"; };
 		82ED26051ECA1967006D9E6D /* WordPressShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WordPressShared.framework; path = "../../../../Library/Developer/Xcode/DerivedData/WordPress-cafhtsrncspgbaehzglsfhxzqxzy/Build/Products/Debug-iphonesimulator/WordPressShared.framework"; sourceTree = "<group>"; };
@@ -888,6 +890,9 @@
 				931C00061EBCB11F005E6BB4 /* InsightsContributionGraphHeaderView.m */,
 				931C00071EBCB11F005E6BB4 /* InsightsMostPopularTableViewCell.h */,
 				931C00081EBCB11F005E6BB4 /* InsightsMostPopularTableViewCell.m */,
+				931C002E1EBCB11F005E6BB4 /* WPStatsContributionGraph.h */,
+				931C002F1EBCB11F005E6BB4 /* WPStatsContributionGraph.m */,
+				74A735AA1F6F202B0092945D /* WPStatsContributionGraph2.swift */,
 				74A735A81F6F0B1C0092945D /* InsightsPostingActivityCollectionViewCell.swift */,
 				931C000B1EBCB11F005E6BB4 /* InsightsPostingActivityCollectionViewController.h */,
 				931C000C1EBCB11F005E6BB4 /* InsightsPostingActivityCollectionViewController.m */,
@@ -924,8 +929,6 @@
 				931C002B1EBCB11F005E6BB4 /* UIViewController+SizeClass.m */,
 				931C002C1EBCB11F005E6BB4 /* WPStatsCollectionViewFlowLayout.h */,
 				931C002D1EBCB11F005E6BB4 /* WPStatsCollectionViewFlowLayout.m */,
-				931C002E1EBCB11F005E6BB4 /* WPStatsContributionGraph.h */,
-				931C002F1EBCB11F005E6BB4 /* WPStatsContributionGraph.m */,
 				931C00301EBCB11F005E6BB4 /* WPStatsGraphBackgroundView.h */,
 				931C00311EBCB11F005E6BB4 /* WPStatsGraphBackgroundView.m */,
 				931C00321EBCB11F005E6BB4 /* WPStatsGraphBarCell.h */,
@@ -1975,6 +1978,7 @@
 				931C03781EBCB120005E6BB4 /* StatsGroup.m in Sources */,
 				931C03371EBCB120005E6BB4 /* InsightsContributionGraphFooterView.m in Sources */,
 				931C03431EBCB120005E6BB4 /* InsightsSectionHeaderTableViewCell.m in Sources */,
+				74A735AB1F6F202B0092945D /* WPStatsContributionGraph2.swift in Sources */,
 				931C033B1EBCB120005E6BB4 /* InsightsMostPopularTableViewCell.m in Sources */,
 				931C037A1EBCB120005E6BB4 /* StatsInsights.m in Sources */,
 				931C03541EBCB120005E6BB4 /* StatsStandardBorderedTableViewCell.m in Sources */,

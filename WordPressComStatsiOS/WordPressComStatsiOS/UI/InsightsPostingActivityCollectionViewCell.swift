@@ -9,7 +9,7 @@ import Foundation
 
     // MARK: - Outlets
 
-    @IBOutlet open weak var contributionGraph: WPStatsContributionGraph!
+    @IBOutlet open weak var contributionGraph: WPStatsContributionGraph2!
 
     // MARK: - Lifecycle Methods
 
@@ -22,31 +22,10 @@ import Foundation
 
 // MARK: - WPStatsContributionGraphDelegate methods
 
-extension InsightsPostingActivityCollectionViewCell : WPStatsContributionGraphDelegate {
-    public func numberOfGrades() -> UInt {
-        return 5
-    }
-
-    public func color(forGrade grade: UInt) -> UIColor! {
-        switch grade {
-        case 0:
-            return WPStyleGuide.statsPostActivityLevel1CellBackground()
-        case 1:
-            return WPStyleGuide.statsPostActivityLevel2CellBackground()
-        case 2:
-            return WPStyleGuide.statsPostActivityLevel3CellBackground()
-        case 3:
-            return WPStyleGuide.statsPostActivityLevel4CellBackground()
-        case 4:
-            return WPStyleGuide.statsPostActivityLevel5CellBackground()
-        default:
-            return WPStyleGuide.statsPostActivityLevel1CellBackground()
-        }
-    }
-
-    public func dateTapped(_ dict: [AnyHashable : Any]!) {
+extension InsightsPostingActivityCollectionViewCell : WPStatsContributionGraphDelegate2 {
+    public func dateTapped(date: Date, contributions: Int) {
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: InsightsPostingActivityCollectionViewCell.didTouchPostActivityDateNotification),
                                         object: self,
-                                        userInfo: dict)
+                                        userInfo: ["date": date, "contributions": String(contributions)])
     }
 }

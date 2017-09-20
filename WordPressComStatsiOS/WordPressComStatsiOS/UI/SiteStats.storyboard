@@ -351,7 +351,7 @@
                                         <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="1IM-uk-HDg">
                                             <rect key="frame" x="1" y="1" width="108" height="148"/>
                                             <subviews>
-                                                <view contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="yT3-DZ-AYJ" customClass="WPStatsContributionGraph">
+                                                <view contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="yT3-DZ-AYJ" customClass="WPStatsContributionGraph2" customModule="WordPressComStatsiOS" customModuleProvider="target">
                                                     <rect key="frame" x="1" y="1" width="106" height="146"/>
                                                 </view>
                                             </subviews>

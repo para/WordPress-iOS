@@ -23,7 +23,7 @@ static NSString *const DidTouchPostActivityDateNotification = @"DidTouchPostActi
                         NSDictionary *dict = [notification userInfo];
                         if (dict) {
                             NSDate *date = [dict valueForKey:@"date"];
-                            NSString *posts = [dict stringForKey:@"value"];
+                            NSString *posts = [dict stringForKey:@"contributions"];
                             if (date && posts) {
                                 NSDateFormatter *dateFormatter = [NSDateFormatter new];
                                 dateFormatter.dateStyle = NSDateFormatterMediumStyle;
