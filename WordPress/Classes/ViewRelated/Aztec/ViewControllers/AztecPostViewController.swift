@@ -30,6 +30,12 @@ class AztecPostViewController: UIViewController, PostEditor {
         return self.createToolbar()
     }()
 
+    // MARK: - Autosave Support
+
+    fileprivate var lastAutosaveTimestamp = Date()
+    fileprivate let minimumIntervalToAutosave = TimeInterval(5)
+
+    // MARK: - Aztec
 
     /// Aztec's Awesomeness
     ///
@@ -1264,7 +1270,7 @@ extension AztecPostViewController : UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        mapUIContentToPostAndSave()
+        autosavePost()
         refreshPlaceholderVisibility()
 
         switch textView {
@@ -1364,7 +1370,7 @@ extension AztecPostViewController : UITextViewDelegate {
 //
 extension AztecPostViewController {
     func titleTextFieldDidChange(_ textField: UITextField) {
-        mapUIContentToPostAndSave()
+        autosavePost()
         editorContentWasUpdated()
     }
 }
@@ -2357,15 +2363,50 @@ private extension AztecPostViewController {
         return strippedHTML
     }
 
-    func mapUIContentToPostAndSave() {
+    /// Autosaves the current post.  Can result in a no-op depending on certain criteria
+    /// (such as the time since the last save).
+    ///
+    private func autosavePost() {
+        let currentTimestamp = Date()
+
+        if currentTimestamp.timeIntervalSince(lastAutosaveTimestamp) > minimumIntervalToAutosave {
+            savePost()
+        }
+    }
+
+    private func savePost() {
         post.postTitle = titleTextField.text
         post.content = getHTML()
 
-        ContextManager.sharedInstance().save(post.managedObjectContext!)
+        let managedObjectContext = post.managedObjectContext!
+
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Autosave: failed")
+            return
+        }
+
+        let postService = PostService(managedObjectContext: managedObjectContext);
+
+        guard postService.supportsAutosave(for: post) else {
+            return
+        }
+
+        postService.autosave(post, success: { [weak self] (post) in
+            guard let `self` = self else {
+                return
+            }
+
+            self.post = post
+            print("Autosave: succeeded")
+            }, failure: { (error) in
+                print("Autosave: failed")
+        })
     }
 
     func publishPost(completion: ((_ post: AbstractPost?, _ error: Error?) -> Void)? = nil) {
-        mapUIContentToPostAndSave()
+        autosavePost()
 
         let managedObjectContext = ContextManager.sharedInstance().mainContext
         let postService = PostService(managedObjectContext: managedObjectContext)

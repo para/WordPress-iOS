@@ -15,6 +15,11 @@ PostServiceType const PostServiceTypePage = @"page";
 PostServiceType const PostServiceTypeAny = @"any";
 NSString * const PostServiceErrorDomain = @"PostServiceErrorDomain";
 
+typedef NS_ENUM(NSInteger, PostServiceErrorCode) {
+    remotePostIsNil = 0,
+    remoteDoesNotSupportAutosave = 1,
+};
+
 const NSUInteger PostServiceDefaultNumberToSync = 40;
 
 @implementation PostService
@@ -90,7 +95,9 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
                           }
                           else if (failure) {
                               NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Retrieved remote post is nil" };
-                              failure([NSError errorWithDomain:PostServiceErrorDomain code:0 userInfo:userInfo]);
+                              NSError *error = [NSError errorWithDomain:PostServiceErrorDomain code:remotePostIsNil userInfo:userInfo];
+
+                              failure(error);
                           }
                       }];
                   }
@@ -227,6 +234,48 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
         [remote createPost:remotePost
                    success:successBlock
                    failure:failureBlock];
+    }
+}
+
+- (BOOL)supportsAutosaveForPost:(AbstractPost *)post
+{
+    id<PostServiceRemote> remote = [self remoteForBlog: post.blog];
+
+    return [self supportsAutosaveForPost:post usingRemote:remote];
+}
+
+- (BOOL)supportsAutosaveForPost:(AbstractPost *)post usingRemote:(id<PostServiceRemote>)remote
+{
+    return [remote isKindOfClass: [PostServiceRemoteREST class]];
+}
+
+- (void)autosavePost:(AbstractPost *)post
+             success:(nullable void (^)(AbstractPost *post))success
+             failure:(void (^)(NSError * _Nullable error))failure
+{
+    if ([post hasRemote]) {
+        id<PostServiceRemote> remote = [self remoteForBlog: post.blog];
+        BOOL remoteSupportsAutosave = [self supportsAutosaveForPost:post usingRemote:remote];
+
+        if (remoteSupportsAutosave) {
+            RemotePost *remotePost = [self remotePostWithPost:post];
+            PostServiceRemoteREST *remoteREST = (PostServiceRemoteREST *)remote;
+
+            void (^successBlock)(RemotePost *post) = ^(RemotePost *remotePost) {
+                success(post);
+            };
+
+            [remoteREST autosave:remotePost
+                         success:successBlock
+                         failure:failure];
+        } else {
+            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Remote doesn't support autosave." };
+            NSError *error = [NSError errorWithDomain:PostServiceErrorDomain code:remoteDoesNotSupportAutosave userInfo:userInfo];
+
+            failure(error);
+        }
+    } else {
+        [self uploadPost:post success:success failure:failure];
     }
 }
 

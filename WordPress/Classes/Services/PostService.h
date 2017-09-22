@@ -90,6 +90,12 @@ extern const NSUInteger PostServiceDefaultNumberToSync;
            success:(nullable void (^)(AbstractPost *post))success
            failure:(void (^)(NSError * _Nullable error))failure;
 
+- (BOOL)supportsAutosaveForPost:(AbstractPost *)post;
+
+- (void)autosavePost:(AbstractPost *)post
+             success:(nullable void (^)(AbstractPost *post))success
+             failure:(void (^)(NSError * _Nullable error))failure;
+
 /**
  Attempts to delete the specified post outright vs moving it to the 
  trash folder.
