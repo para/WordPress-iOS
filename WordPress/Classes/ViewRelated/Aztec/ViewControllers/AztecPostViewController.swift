@@ -2443,15 +2443,12 @@ private extension AztecPostViewController {
 
         copyTitleAndContentToPost()
 
-        let postService = PostService(managedObjectContext: mainContext);
+        // The post must definitely have been inserted into a MOC at this point.
+        //
+        let managedObjectContext = post.managedObjectContext!
+        let postService = PostService(managedObjectContext: managedObjectContext);
 
-        postService.autosave(post, success: { [weak self] (post) in
-            guard let `self` = self else {
-                return
-            }
-
-            self.post = post
-
+        postService.autosave(post, success: { [weak self] in
             print("Success")
         }) { (error) in
             print("Failure")

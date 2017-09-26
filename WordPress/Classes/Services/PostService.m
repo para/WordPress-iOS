@@ -176,13 +176,7 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
     void (^successBlock)(RemotePost *post) = ^(RemotePost *post) {
         [self.managedObjectContext performBlock:^{
             AbstractPost *postInContext = (AbstractPost *)[self.managedObjectContext existingObjectWithID:postObjectID error:nil];
-            if (postInContext) {
-                if ([postInContext isRevision]) {
-                    postInContext = postInContext.original;
-                    [postInContext applyRevision];
-                    [postInContext deleteRevision];
-                }
-                
+            if (postInContext) {                
                 [self updatePost:postInContext withRemotePost:post];
                 postInContext.remoteStatus = AbstractPostRemoteStatusSync;
 
@@ -237,46 +231,58 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
     }
 }
 
-- (BOOL)supportsAutosaveForPost:(AbstractPost *)post
-{
-    id<PostServiceRemote> remote = [self remoteForBlog: post.blog];
-
-    return [self supportsAutosaveForRemote:remote];
-}
-
 - (BOOL)supportsAutosaveForRemote:(id<PostServiceRemote>)remote
 {
     return [remote isKindOfClass: [PostServiceRemoteREST class]];
 }
 
 - (void)autosavePost:(AbstractPost *)post
-             success:(nullable void (^)(AbstractPost *post))success
+             success:(void (^)())success
              failure:(void (^)(NSError * _Nullable error))failure
 {
-    NSError *error = nil;
-    [post.managedObjectContext save:&error];
-    assert(error == nil);
-    
+    NSAssert(post.managedObjectContext != nil, @"The post should be added to a MOC before autosaving.");
+
+    NSManagedObjectContext *managedObjectContext = post.managedObjectContext;
+
+    [managedObjectContext performBlockAndWait:^{
+        post.remoteStatus = AbstractPostRemoteStatusPushing;
+        [post.managedObjectContext save:nil];
+    }];
+
     if ([post hasRemote]) {
         id<PostServiceRemote> remote = [self remoteForBlog: post.blog];
         BOOL remoteSupportsAutosave = [self supportsAutosaveForRemote:remote];
+
+        void (^successBlock)(RemotePost *post) = ^(RemotePost *remotePost) {
+            [managedObjectContext performBlock:^{
+                //[self updatePost:post withRemotePost:remotePost];
+                [managedObjectContext save:nil];
+
+                success();
+            }];
+        };
+
+        void (^failureBlock)(NSError *error) = ^(NSError *error) {
+            [managedObjectContext performBlock:^{
+                post.remoteStatus = AbstractPostRemoteStatusFailed;
+                [managedObjectContext save:nil];
+
+                failure(error);
+            }];
+        };
 
         if (remoteSupportsAutosave) {
             RemotePost *remotePost = [self remotePostWithPost:post];
             PostServiceRemoteREST *remoteREST = (PostServiceRemoteREST *)remote;
 
-            void (^successBlock)(RemotePost *post) = ^(RemotePost *remotePost) {
-                success(post);
-            };
-
             [remoteREST autosave:remotePost
                          success:successBlock
-                         failure:failure];
+                         failure:failureBlock];
         } else {
             NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Remote doesn't support autosave." };
             NSError *error = [NSError errorWithDomain:PostServiceErrorDomain code:remoteDoesNotSupportAutosave userInfo:userInfo];
 
-            failure(error);
+            failureBlock(error);
         }
     } else {
         [self uploadPost:post success:success failure:failure];
