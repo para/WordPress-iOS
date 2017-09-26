@@ -32,8 +32,21 @@ class AztecPostViewController: UIViewController, PostEditor {
 
     // MARK: - Autosave Support
 
+    /// The timestamp of the last autosave.
+    ///
     fileprivate var lastAutosaveTimestamp = Date()
-    fileprivate let minimumIntervalToAutosave = TimeInterval(5)
+
+    /// The maximum interval of time after a change in the post triggers an autosave operation.
+    ///
+    fileprivate let maximumIntervalToAutosave = TimeInterval(5)
+
+    /// The minimum interval of time after a change in the post triggers an autosave operation.
+    ///
+    fileprivate let minimumIntervalToAutosave = TimeInterval(0.5)
+
+    /// The timer to use for autosaving.
+    ///
+    fileprivate var timer: Timer?
 
     // MARK: - Aztec
 
@@ -1270,7 +1283,7 @@ extension AztecPostViewController : UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        autosavePost()
+        scheduleAutosave()
         refreshPlaceholderVisibility()
 
         switch textView {
@@ -1370,7 +1383,7 @@ extension AztecPostViewController : UITextViewDelegate {
 //
 extension AztecPostViewController {
     func titleTextFieldDidChange(_ textField: UITextField) {
-        autosavePost()
+        scheduleAutosave()
         editorContentWasUpdated()
     }
 }
@@ -2360,54 +2373,29 @@ private extension AztecPostViewController {
 
         return strippedHTML
     }
+}
 
-    /// Autosaves the current post.  Can result in a no-op depending on certain criteria
-    /// (such as the time since the last save).
+// MARK: - Post Update
+private extension AztecPostViewController {
+    /// Copies the current title and content fields contents into the post object.
     ///
-    private func autosavePost() {
-        let currentTimestamp = Date()
-
-        if currentTimestamp.timeIntervalSince(lastAutosaveTimestamp) > minimumIntervalToAutosave {
-            savePost()
-        }
-    }
-
-    private func savePost() {
+    func copyTitleAndContentToPost() {
         post.postTitle = titleTextField.text
         post.content = getHTML()
-
-        let managedObjectContext = post.managedObjectContext!
-
-        do {
-            try managedObjectContext.save()
-        } catch {
-            print("Autosave: failed")
-            return
-        }
-
-        let postService = PostService(managedObjectContext: managedObjectContext);
-
-        guard postService.supportsAutosave(for: post) else {
-            return
-        }
-
-        postService.autosave(post, success: { [weak self] (post) in
-            guard let `self` = self else {
-                return
-            }
-
-            self.post = post
-            print("Autosave: succeeded")
-            }, failure: { (error) in
-                print("Autosave: failed")
-        })
     }
+}
 
+// MARK: - Publish Support
+private extension AztecPostViewController {
+
+    /// Publishes the post.
+    ///
     func publishPost(completion: ((_ post: AbstractPost?, _ error: Error?) -> Void)? = nil) {
-        autosavePost()
+        copyTitleAndContentToPost()
 
         let managedObjectContext = ContextManager.sharedInstance().mainContext
         let postService = PostService(managedObjectContext: managedObjectContext)
+
         postService.uploadPost(post, success: { uploadedPost in
             completion?(uploadedPost, nil)
         }) { error in
@@ -2416,6 +2404,60 @@ private extension AztecPostViewController {
     }
 }
 
+// MARK: - Autosave Support
+private extension AztecPostViewController {
+
+    // MARK: - Autosave Triggers
+
+    /// Schedules the autosave operation.
+    ///      
+    func scheduleAutosave() {
+        timer?.invalidate()
+        timer = nil
+
+        let intervalToAutosave: TimeInterval
+        let intervalSinceLastAutosave = lastAutosaveTimestamp.timeIntervalSinceNow
+
+        if maximumIntervalToAutosave > intervalSinceLastAutosave + minimumIntervalToAutosave {
+            intervalToAutosave = minimumIntervalToAutosave
+        } else {
+            intervalToAutosave = maximumIntervalToAutosave - lastAutosaveTimestamp.timeIntervalSinceNow
+        }
+
+        timer = Timer.scheduledTimer(withTimeInterval: intervalToAutosave, repeats: false) { [weak self] (timer) in
+            guard let `self` = self else {
+                return
+            }
+
+            self.lastAutosaveTimestamp = Date()
+            self.autosave()
+        }
+    }
+
+    // MARK: - Autosave
+
+    /// Autosaves the post.
+    ///
+    private func autosave() {
+        print("Autosaving...")
+
+        copyTitleAndContentToPost()
+
+        let postService = PostService(managedObjectContext: mainContext);
+
+        postService.autosave(post, success: { [weak self] (post) in
+            guard let `self` = self else {
+                return
+            }
+
+            self.post = post
+
+            print("Success")
+        }) { (error) in
+            print("Failure")
+        }
+    }
+}
 
 // MARK: - Computed Properties
 //

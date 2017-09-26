@@ -241,10 +241,10 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
 {
     id<PostServiceRemote> remote = [self remoteForBlog: post.blog];
 
-    return [self supportsAutosaveForPost:post usingRemote:remote];
+    return [self supportsAutosaveForRemote:remote];
 }
 
-- (BOOL)supportsAutosaveForPost:(AbstractPost *)post usingRemote:(id<PostServiceRemote>)remote
+- (BOOL)supportsAutosaveForRemote:(id<PostServiceRemote>)remote
 {
     return [remote isKindOfClass: [PostServiceRemoteREST class]];
 }
@@ -253,9 +253,13 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
              success:(nullable void (^)(AbstractPost *post))success
              failure:(void (^)(NSError * _Nullable error))failure
 {
+    NSError *error = nil;
+    [post.managedObjectContext save:&error];
+    assert(error == nil);
+    
     if ([post hasRemote]) {
         id<PostServiceRemote> remote = [self remoteForBlog: post.blog];
-        BOOL remoteSupportsAutosave = [self supportsAutosaveForPost:post usingRemote:remote];
+        BOOL remoteSupportsAutosave = [self supportsAutosaveForRemote:remote];
 
         if (remoteSupportsAutosave) {
             RemotePost *remotePost = [self remotePostWithPost:post];
