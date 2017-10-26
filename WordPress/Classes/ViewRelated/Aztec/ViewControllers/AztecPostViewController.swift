@@ -44,13 +44,13 @@ class AztecPostViewController: UIViewController, PostEditor {
 
         textView.inputProcessor =
             PipelineProcessor([VideoShortcodeProcessor.videoPressPreProcessor,
-                               VideoShortcodeProcessor.wordPressVideoPreProcessor,
-                               CalypsoProcessorIn()])
+                               VideoShortcodeProcessor.wordPressVideoPreProcessor])
 
         textView.outputProcessor =
             PipelineProcessor([VideoShortcodeProcessor.videoPressPostProcessor,
-                               VideoShortcodeProcessor.wordPressVideoPostProcessor,
-                               CalypsoProcessorOut()])
+                               VideoShortcodeProcessor.wordPressVideoPostProcessor])
+
+        textView.outputSerializer = CalypsoHTMLSerializer()
 
         let accessibilityLabel = NSLocalizedString("Rich Content", comment: "Post Rich content")
         self.configureDefaultProperties(for: textView, accessibilityLabel: accessibilityLabel)
@@ -814,7 +814,7 @@ class AztecPostViewController: UIViewController, PostEditor {
         case .html:
             html = htmlTextView.text
         case .richText:
-            html = richTextView.getHTML(prettyPrint: false)
+            html = richTextView.getHTML()
         }
 
         return html
