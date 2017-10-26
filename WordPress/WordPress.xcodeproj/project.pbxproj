@@ -576,6 +576,7 @@
 		B57B99DE19A2DBF200506504 /* NSObject+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = B57B99DD19A2DBF200506504 /* NSObject+Helpers.m */; };
 		B57F010E1CB6931900B761B3 /* UIImageView+Gravatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57F010D1CB6931900B761B3 /* UIImageView+Gravatar.swift */; };
 		B580E4791AEA91000091A094 /* UIViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B580E4781AEA91000091A094 /* UIViewController+Helpers.swift */; };
+		B5834C881FA269B200D46FC0 /* CalypsoHTMLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5834C871FA269B200D46FC0 /* CalypsoHTMLSerializer.swift */; };
 		B584758A1D51078C006734CE /* NotificationDeletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58475891D51078C006734CE /* NotificationDeletion.swift */; };
 		B587797C19B799D800E57C5A /* NSParagraphStyle+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587797119B799D800E57C5A /* NSParagraphStyle+Helpers.swift */; };
 		B587797D19B799D800E57C5A /* UIDevice+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587797219B799D800E57C5A /* UIDevice+Helpers.swift */; };
@@ -1868,6 +1869,7 @@
 		B57B99DD19A2DBF200506504 /* NSObject+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Helpers.m"; sourceTree = "<group>"; };
 		B57F010D1CB6931900B761B3 /* UIImageView+Gravatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Gravatar.swift"; sourceTree = "<group>"; };
 		B580E4781AEA91000091A094 /* UIViewController+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Helpers.swift"; sourceTree = "<group>"; };
+		B5834C871FA269B200D46FC0 /* CalypsoHTMLSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalypsoHTMLSerializer.swift; sourceTree = "<group>"; };
 		B58475891D51078C006734CE /* NotificationDeletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDeletion.swift; sourceTree = "<group>"; };
 		B587797119B799D800E57C5A /* NSParagraphStyle+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSParagraphStyle+Helpers.swift"; sourceTree = "<group>"; };
 		B587797219B799D800E57C5A /* UIDevice+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Helpers.swift"; sourceTree = "<group>"; };
@@ -3886,6 +3888,7 @@
 				B538F3821EF45B13001003D5 /* Options */,
 				B50C0C531EF42A0000372C65 /* Processors */,
 				B50C0C4C1EF429E900372C65 /* Renderers */,
+				B5834C861FA269B200D46FC0 /* Serializers */,
 				B50C0C5B1EF42A4A00372C65 /* ViewControllers */,
 			);
 			path = Aztec;
@@ -4150,6 +4153,14 @@
 				B572735F1B66CCEF000D1C4F /* AlertView.xib */,
 			);
 			path = AlertView;
+			sourceTree = "<group>";
+		};
+		B5834C861FA269B200D46FC0 /* Serializers */ = {
+			isa = PBXGroup;
+			children = (
+				B5834C871FA269B200D46FC0 /* CalypsoHTMLSerializer.swift */,
+			);
+			path = Serializers;
 			sourceTree = "<group>";
 		};
 		B587796C19B799D800E57C5A /* Extensions */ = {
@@ -6627,6 +6638,7 @@
 				B50C0C5A1EF42A2600372C65 /* MediaProgressCoordinator.swift in Sources */,
 				B574CE151B5E8EA800A84FFD /* NSMutableAttributedString+Helpers.swift in Sources */,
 				B5416CF51C171D7100006DD8 /* PushNotificationsManager.swift in Sources */,
+				B5834C881FA269B200D46FC0 /* CalypsoHTMLSerializer.swift in Sources */,
 				08216FCD1CDBF96000304BA7 /* MenuItemPagesViewController.m in Sources */,
 				74D5FFD619ACDF6700389E8F /* WPLegacyEditPostViewController.m in Sources */,
 				43D54D131DCAA070007F575F /* PostPostViewController.swift in Sources */,
