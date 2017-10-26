@@ -44,7 +44,8 @@ class AztecPostViewController: UIViewController, PostEditor {
 
         textView.inputProcessor =
             PipelineProcessor([VideoShortcodeProcessor.videoPressPreProcessor,
-                               VideoShortcodeProcessor.wordPressVideoPreProcessor])
+                               VideoShortcodeProcessor.wordPressVideoPreProcessor,
+                               CalypsoProcessorIn()])
 
         textView.outputProcessor =
             PipelineProcessor([VideoShortcodeProcessor.videoPressPostProcessor,

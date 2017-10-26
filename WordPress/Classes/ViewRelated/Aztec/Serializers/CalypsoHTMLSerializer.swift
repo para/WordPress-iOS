@@ -105,7 +105,11 @@ private extension CalypsoHTMLSerializer {
         let prefix = requiresOpeningTagPrefix(node) ? prefixForTag(at: level) : ""
         let attributes = serialize(attributes: node.attributes)
 
-        return prefix + "<" + node.name + attributes + ">"
+        guard let standardName = node.standardName, let customOpeningTag = Constants.customOpeningTags[standardName] else {
+            return prefix + "<" + node.name + attributes + ">"
+        }
+
+        return customOpeningTag
     }
 
 
@@ -119,7 +123,11 @@ private extension CalypsoHTMLSerializer {
         let prefix = requiresClosingTagPrefix(node) ? prefixForTag(at: level) : ""
         let posfix = requiresClosingTagPosfix(node) ? posfixForTag() : ""
 
-        return prefix + "</" + node.name + ">" + posfix
+        guard let standardName = node.standardName, let customClosingTag = Constants.customClosingTags[standardName] else {
+            return prefix + "</" + node.name + ">" + posfix
+        }
+
+        return customClosingTag
     }
 
 
@@ -205,6 +213,20 @@ private extension CalypsoHTMLSerializer {
         ///
         static let voidElements = ["area", "base", "br", "col", "embed", "hr", "img", "input", "link",
                                    "meta", "param", "source", "track", "wbr"]
+
+        /// List of Elements that shouldn't have an Opening / Closing tag
+        ///
+        static let customOpeningTags: [StandardElementType: String] = [
+            .p: String(),
+            .br: String()
+        ]
+
+        /// List of Elements that shouldn't have an Opening / Closing tag
+        ///
+        static let customClosingTags: [StandardElementType: String] = [
+            .p: "\n\n",
+            .br: "\n"
+        ]
     }
 }
 
@@ -213,5 +235,6 @@ private extension CalypsoHTMLSerializer {
 //
 extension String {
     static let lineFeed = "\u{000A}"
+    static let newline = "\n"
     static let space = " "
 }
