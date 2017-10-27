@@ -213,14 +213,14 @@ private extension CalypsoHTMLSerializer {
         ///
         static let customOpeningTags: [StandardElementType: String] = [
             .p: String(),
-            .br: String()
+            .br: "\n"
         ]
 
         /// List of Elements that shouldn't have an Opening / Closing tag
         ///
         static let customClosingTags: [StandardElementType: String] = [
             .p: "\n\n",
-            .br: "\n"
+            .br: String()
         ]
     }
 }
