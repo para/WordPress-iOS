@@ -937,6 +937,7 @@
 		F1049F331F39FCF9004DF0BB /* CalypsoProcessorOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1049F321F39FCF9004DF0BB /* CalypsoProcessorOut.swift */; };
 		F128C31C1AFCC95B008C2404 /* WPNavigationMediaPickerViewController+StatusBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F128C31B1AFCC95B008C2404 /* WPNavigationMediaPickerViewController+StatusBarStyle.m */; };
 		F1564E5B18946087009F8F97 /* NSStringHelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F1564E5A18946087009F8F97 /* NSStringHelpersTests.m */; };
+		F1662B791FA8EA940057F8C1 /* ParagraphRestoringProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1662B781FA8EA940057F8C1 /* ParagraphRestoringProcessor.swift */; };
 		F18B43781F849F580089B817 /* PostAttachmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18B43771F849F580089B817 /* PostAttachmentTests.swift */; };
 		F1D690161F82913F00200E30 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D690151F828FF000200E30 /* FeatureFlag.swift */; };
 		F1D690171F82914200200E30 /* BuildConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D690141F828FF000200E30 /* BuildConfiguration.swift */; };
@@ -2376,6 +2377,7 @@
 		F128C31A1AFCC95B008C2404 /* WPNavigationMediaPickerViewController+StatusBarStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WPNavigationMediaPickerViewController+StatusBarStyle.h"; sourceTree = "<group>"; };
 		F128C31B1AFCC95B008C2404 /* WPNavigationMediaPickerViewController+StatusBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WPNavigationMediaPickerViewController+StatusBarStyle.m"; sourceTree = "<group>"; };
 		F1564E5A18946087009F8F97 /* NSStringHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringHelpersTests.m; sourceTree = "<group>"; };
+		F1662B781FA8EA940057F8C1 /* ParagraphRestoringProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParagraphRestoringProcessor.swift; sourceTree = "<group>"; };
 		F18B43771F849F580089B817 /* PostAttachmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostAttachmentTests.swift; path = Posts/PostAttachmentTests.swift; sourceTree = "<group>"; };
 		F1D690141F828FF000200E30 /* BuildConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildConfiguration.swift; sourceTree = "<group>"; };
 		F1D690151F828FF000200E30 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
@@ -3911,6 +3913,7 @@
 			children = (
 				B50C0C541EF42A0000372C65 /* ShortcodeProcessor.swift */,
 				B50C0C551EF42A0000372C65 /* VideoShortcodeProcessor.swift */,
+				F1662B781FA8EA940057F8C1 /* ParagraphRestoringProcessor.swift */,
 				B5032DDC1F02B30B00D946DC /* CalypsoProcessorIn.swift */,
 				F1049F321F39FCF9004DF0BB /* CalypsoProcessorOut.swift */,
 			);
@@ -6180,6 +6183,7 @@
 				594DB2951AB891A200E2E456 /* WPUserAgent.m in Sources */,
 				C56636E91868D0CE00226AAB /* StatsViewController.m in Sources */,
 				E6805D301DCD399600168E4F /* WPRichTextEmbed.swift in Sources */,
+				F1662B791FA8EA940057F8C1 /* ParagraphRestoringProcessor.swift in Sources */,
 				F128C31C1AFCC95B008C2404 /* WPNavigationMediaPickerViewController+StatusBarStyle.m in Sources */,
 				E1B9128F1BB05B1D003C25B9 /* PeopleCell.swift in Sources */,
 				313AE4A019E3F20400AAFABE /* CommentViewController.m in Sources */,
