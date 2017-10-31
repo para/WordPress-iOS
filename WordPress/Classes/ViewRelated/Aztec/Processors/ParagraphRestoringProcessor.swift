@@ -3,6 +3,8 @@ import Foundation
 
 class ParagraphRestoringProcessor: HTMLTreeProcessor {
     func process(_ rootNode: RootNode) -> RootNode {
+        removeNewlinesFromChildren(of: rootNode)
+        
         return rootNode
     }
 }
