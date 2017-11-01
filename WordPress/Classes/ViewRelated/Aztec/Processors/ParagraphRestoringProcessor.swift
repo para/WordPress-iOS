@@ -1,3 +1,4 @@
+
 import Aztec
 import Foundation
 
@@ -41,8 +42,11 @@ extension ParagraphRestoringProcessor {
             textToProcess = textToProcess + textNode.text()
         }
         
-        for child in processedNodes {
-            child.parent = element
+        if textToProcess.characters.count > 0 {
+            let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs)
+            
+            processedNodes.append(contentsOf: nodes)
+            textToProcess = ""
         }
         
         element.children = processedNodes
@@ -60,10 +64,18 @@ extension ParagraphRestoringProcessor {
         var nodes = [Node]()
         let paragraphs = text.components(separatedBy: "\n\n")
         
-        for paragraph in paragraphs {
+        for (index, paragraph) in paragraphs.enumerated() {
             let children = nodesRestoringBreaks(for: paragraph)
-            let paragraph = ElementNode(type: .p, attributes: [], children: children)
             
+            // The last paragraph is not really a paragraph because it's not closed by \n\n.  In fact if it was
+            // it would not be the last paragraph in the array. :)
+            //
+            guard index < paragraphs.count - 1 else {
+                nodes.append(contentsOf: children)
+                continue
+            }
+            
+            let paragraph = ElementNode(type: .p, attributes: [], children: children)
             nodes.append(paragraph)
         }
         
@@ -79,9 +91,10 @@ extension ParagraphRestoringProcessor {
                 nodes.append(ElementNode(type: .br))
             }
             
-            let textNode = TextNode(text: line)
-            
-            nodes.append(textNode)
+            if line.characters.count > 0 {
+                let textNode = TextNode(text: line)
+                nodes.append(textNode)
+            }
         }
         
         return nodes
