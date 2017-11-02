@@ -2,56 +2,76 @@
 import Aztec
 import Foundation
 
+/// This class takes care of processing HTML as provided by the WP.com and converting it into 100% standard HTML.
+/// WP.com HTML coming from Calypso and the older editor is stored with regular newlines (\n and \r\n) instead of
+/// using HTML paragraphs and BR nodes.
+///
 class ParagraphRestoringProcessor: HTMLTreeProcessor {
-    func process(_ rootNode: RootNode) -> RootNode {
-        removeNewlinesFromChildren(of: rootNode)
-        
-        return rootNode
+    func process(_ rootNode: RootNode) {
+        processNewlines(in: rootNode)
     }
 }
 
 extension ParagraphRestoringProcessor {
     
-    func removeNewlinesFromChildren(of rootNode: RootNode) {
-        removeNewlinesFromChildren(of: rootNode, restoreParagraphs: true)
+    func processNewlines(in rootNode: RootNode) {
+        processNewlines(in: rootNode, restoreParagraphs: true)
     }
     
-    // Recursive
-    private func removeNewlinesFromChildren(of element: ElementNode, restoreParagraphs: Bool) {
+    private func processNewlines(in element: ElementNode, restoreParagraphs: Bool) {
         
         var processedNodes = [Node]()
         var textToProcess = ""
         var firstChildProcessed = false
         
         for child in element.children {
-            guard let textNode = child as? TextNode else {
-                if textToProcess.characters.count > 0 {
-                    let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs, removeOpeningNewline: !firstChildProcessed)
-                    
-                    processedNodes.append(contentsOf: nodes)
-                    textToProcess = ""
-                }
-                
-                if let element = child as? ElementNode {
-                    removeNewlinesFromChildren(of: element, restoreParagraphs: false)
-                }
-                
-                processedNodes.append(child)
-                firstChildProcessed = true
+            if let textNode = child as? TextNode {
+                textToProcess = textToProcess + textNode.text()
                 continue
             }
             
-            textToProcess = textToProcess + textNode.text()
+            if let nodes = processNewlines(in: textToProcess,
+                                           restoreParagraphs: restoreParagraphs,
+                                           removeOpeningNewlines: !firstChildProcessed) {
+                processedNodes.append(contentsOf: nodes)
+                textToProcess = ""
+            }
+            
+            if let element = child as? ElementNode {
+                processNewlines(in: element, restoreParagraphs: false)
+            }
+            
+            processedNodes.append(child)
+            firstChildProcessed = true
         }
         
-        if textToProcess.characters.count > 0 {
-            let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs, removeOpeningNewline: !firstChildProcessed)
-            
+        if let nodes = processNewlines(in: textToProcess,
+                                       restoreParagraphs: restoreParagraphs,
+                                       removeOpeningNewlines: !firstChildProcessed) {
             processedNodes.append(contentsOf: nodes)
             textToProcess = ""
         }
         
         element.children = processedNodes
+    }
+    
+    /// Processes newlines in consecutive text nodes.
+    ///
+    /// - Parameters:
+    ///     - text: the text to process.
+    ///     - restoreParagraphs: whether we're going to replace \n\n with paragraphs.  Would be true for text nodes
+    ///             at root-level.
+    ///     - removeOpeningNewlines: set to true if we should ignore the first character when its a newline.  This is
+    ///             the case when the newline would be a prettifying newline.
+    ///
+    /// - Returns: true if any text was processed.
+    ///
+    private func processNewlines(in text: String, restoreParagraphs: Bool, removeOpeningNewlines: Bool) -> [Node]? {
+        guard text.characters.count > 0 else {
+            return nil
+        }
+        
+        return nodes(for: text, restoreParagraphs: restoreParagraphs, removeOpeningNewline: removeOpeningNewlines)
     }
 }
 
