@@ -63,12 +63,13 @@ extension ParagraphRestoringProcessor {
     private func nodesRestoringBreaksAndParagraphs(for text: String) -> [Node] {
         var nodes = [Node]()
         
+        let cleanText = text.replacingOccurrences(of: "\r\n", with: "\n")
         let finalText: String
         
         if text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
-            finalText = text.substring(from: text.index(after: text.startIndex))
+            finalText = cleanText.substring(from: text.index(after: text.startIndex))
         } else {
-            finalText = text
+            finalText = cleanText
         }
         
         let paragraphs = finalText.components(separatedBy: "\n\n")
@@ -93,12 +94,13 @@ extension ParagraphRestoringProcessor {
     
     private func nodesRestoringBreaks(for text: String) -> [Node] {
         var nodes = [Node]()
+        let cleanText = text.replacingOccurrences(of: "\r\n", with: "\n")
         let finalText: String
         
         if text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
-            finalText = text.substring(from: text.index(after: text.startIndex))
+            finalText = cleanText.substring(from: text.index(after: text.startIndex))
         } else {
-            finalText = text
+            finalText = cleanText
         }
         
         let lines = finalText.components(separatedBy: "\n")
