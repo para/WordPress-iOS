@@ -21,11 +21,12 @@ extension ParagraphRestoringProcessor {
         
         var processedNodes = [Node]()
         var textToProcess = ""
+        var firstChildProcessed = false
         
         for child in element.children {
             guard let textNode = child as? TextNode else {
                 if textToProcess.characters.count > 0 {
-                    let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs)
+                    let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs, removeOpeningNewline: !firstChildProcessed)
                     
                     processedNodes.append(contentsOf: nodes)
                     textToProcess = ""
@@ -36,6 +37,7 @@ extension ParagraphRestoringProcessor {
                 }
                 
                 processedNodes.append(child)
+                firstChildProcessed = true
                 continue
             }
             
@@ -43,7 +45,7 @@ extension ParagraphRestoringProcessor {
         }
         
         if textToProcess.characters.count > 0 {
-            let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs)
+            let nodes = self.nodes(for: textToProcess, restoreParagraphs: restoreParagraphs, removeOpeningNewline: !firstChildProcessed)
             
             processedNodes.append(contentsOf: nodes)
             textToProcess = ""
@@ -51,28 +53,29 @@ extension ParagraphRestoringProcessor {
         
         element.children = processedNodes
     }
-    
-    private func nodes(for text: String, restoreParagraphs: Bool) -> [Node] {
-        if restoreParagraphs {
-            return nodesRestoringBreaksAndParagraphs(for: text)
-        } else {
-            return nodesRestoringBreaks(for: text)
-        }
-    }
+}
 
-    private func nodesRestoringBreaksAndParagraphs(for text: String) -> [Node] {
-        var nodes = [Node]()
-        
+extension ParagraphRestoringProcessor {
+    func nodes(for text: String, restoreParagraphs: Bool, removeOpeningNewline: Bool) -> [Node] {
         let cleanText = text.replacingOccurrences(of: "\r\n", with: "\n")
         let finalText: String
         
-        if text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
+        if removeOpeningNewline && text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
             finalText = cleanText.substring(from: text.index(after: text.startIndex))
         } else {
             finalText = cleanText
         }
         
-        let paragraphs = finalText.components(separatedBy: "\n\n")
+        if restoreParagraphs {
+            return nodesRestoringBreaksAndParagraphs(for: finalText)
+        } else {
+            return nodesRestoringBreaks(for: finalText)
+        }
+    }
+
+    private func nodesRestoringBreaksAndParagraphs(for text: String) -> [Node] {
+        var nodes = [Node]()
+        let paragraphs = text.components(separatedBy: "\n\n")
         
         for (index, paragraph) in paragraphs.enumerated() {
             let children = nodesRestoringBreaks(for: paragraph)
@@ -94,16 +97,7 @@ extension ParagraphRestoringProcessor {
     
     private func nodesRestoringBreaks(for text: String) -> [Node] {
         var nodes = [Node]()
-        let cleanText = text.replacingOccurrences(of: "\r\n", with: "\n")
-        let finalText: String
-        
-        if text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
-            finalText = cleanText.substring(from: text.index(after: text.startIndex))
-        } else {
-            finalText = cleanText
-        }
-        
-        let lines = finalText.components(separatedBy: "\n")
+        let lines = text.components(separatedBy: "\n")
         
         for (index, line) in lines.enumerated() {
             if index > 0 {
