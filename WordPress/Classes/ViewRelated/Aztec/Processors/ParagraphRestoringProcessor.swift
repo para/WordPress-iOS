@@ -59,10 +59,19 @@ extension ParagraphRestoringProcessor {
             return nodesRestoringBreaks(for: text)
         }
     }
-    
+
     private func nodesRestoringBreaksAndParagraphs(for text: String) -> [Node] {
         var nodes = [Node]()
-        let paragraphs = text.components(separatedBy: "\n\n")
+        
+        let finalText: String
+        
+        if text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
+            finalText = text.substring(from: text.index(after: text.startIndex))
+        } else {
+            finalText = text
+        }
+        
+        let paragraphs = finalText.components(separatedBy: "\n\n")
         
         for (index, paragraph) in paragraphs.enumerated() {
             let children = nodesRestoringBreaks(for: paragraph)
@@ -84,7 +93,15 @@ extension ParagraphRestoringProcessor {
     
     private func nodesRestoringBreaks(for text: String) -> [Node] {
         var nodes = [Node]()
-        let lines = text.components(separatedBy: "\n")
+        let finalText: String
+        
+        if text.characters.count > 0 && text.substring(to: text.index(after: text.startIndex)) == "\n" {
+            finalText = text.substring(from: text.index(after: text.startIndex))
+        } else {
+            finalText = text
+        }
+        
+        let lines = finalText.components(separatedBy: "\n")
         
         for (index, line) in lines.enumerated() {
             if index > 0 {
