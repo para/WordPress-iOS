@@ -92,7 +92,7 @@ PODS:
   - Nimble (7.0.2)
   - NSObject-SafeExpectations (0.0.2)
   - NSURL+IDN (0.3)
-  - OCMock (3.4)
+  - OCMock (3.4.1)
   - OHHTTPStubs (6.0.0):
     - OHHTTPStubs/Default (= 6.0.0)
   - OHHTTPStubs/Core (6.0.0)
@@ -187,7 +187,7 @@ SPEC CHECKSUMS:
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   NSObject-SafeExpectations: 7d7f48df90df4e11da7cfe86b64f45eff7a7f521
   NSURL+IDN: 82355a0afd532fe1de08f6417c134b49b1a1c4b3
-  OCMock: 35ae71d6a8fcc1b59434d561d1520b9dd4f15765
+  OCMock: 2cd0716969bab32a2283ff3a46fd26a8c8b4c5e3
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
