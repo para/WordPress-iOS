@@ -703,6 +703,7 @@
 		E13F23C314FE84600081D9CC /* NSMutableDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E13F23C214FE84600081D9CC /* NSMutableDictionary+Helpers.m */; };
 		E14200781C117A2E00B3B115 /* ManagedAccountSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14200771C117A2E00B3B115 /* ManagedAccountSettings.swift */; };
 		E142007A1C117A3B00B3B115 /* ManagedAccountSettings+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14200791C117A3B00B3B115 /* ManagedAccountSettings+CoreDataProperties.swift */; };
+		E144868C1FB313F200012624 /* AccountDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E144868B1FB313F200012624 /* AccountDatabase.swift */; };
 		E1468DE71E794A4D0044D80F /* LanguageSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1468DE61E794A4D0044D80F /* LanguageSelectorViewController.swift */; };
 		E14694071F3459E2004052C8 /* PluginListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14694061F3459E2004052C8 /* PluginListViewController.swift */; };
 		E148362F1C6DF7D8005ACF53 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148362E1C6DF7D8005ACF53 /* Product.swift */; };
@@ -2068,6 +2069,7 @@
 		E13F23C214FE84600081D9CC /* NSMutableDictionary+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Helpers.m"; sourceTree = "<group>"; };
 		E14200771C117A2E00B3B115 /* ManagedAccountSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ManagedAccountSettings.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E14200791C117A3B00B3B115 /* ManagedAccountSettings+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedAccountSettings+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E144868B1FB313F200012624 /* AccountDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDatabase.swift; sourceTree = "<group>"; };
 		E1457202135EC85700C7BAD2 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E1468DE61E794A4D0044D80F /* LanguageSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelectorViewController.swift; sourceTree = "<group>"; };
 		E14694061F3459E2004052C8 /* PluginListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginListViewController.swift; sourceTree = "<group>"; };
@@ -2639,6 +2641,7 @@
 			isa = PBXGroup;
 			children = (
 				C59D3D480E6410BC00AA591D /* Categories */,
+				E144868A1FB313E200012624 /* Databases */,
 				B587796C19B799D800E57C5A /* Extensions */,
 				2F706A870DFB229B00B43086 /* Models */,
 				850BD4531922F95C0032F3AD /* Networking */,
@@ -4814,6 +4817,14 @@
 			path = Plans;
 			sourceTree = "<group>";
 		};
+		E144868A1FB313E200012624 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				E144868B1FB313F200012624 /* AccountDatabase.swift */,
+			);
+			path = Databases;
+			sourceTree = "<group>";
+		};
 		E14694041F3459A9004052C8 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -6367,6 +6378,7 @@
 				B54866CA1A0D7042004AC79D /* NSAttributedString+Helpers.swift in Sources */,
 				834CAEA0122D56B1003DDF49 /* UIImage+RoundedCorner.m in Sources */,
 				E105205B1F2B1CF400A948F6 /* BlogToBlogMigration_61_62.swift in Sources */,
+				E144868C1FB313F200012624 /* AccountDatabase.swift in Sources */,
 				E16FB7E31F8B61040004DD9F /* WebKitViewController.swift in Sources */,
 				93414DE51E2D25AE003143A3 /* PostEditorState.swift in Sources */,
 				1707CE421F3121750020B7FE /* UICollectionViewCell+Tint.swift in Sources */,
