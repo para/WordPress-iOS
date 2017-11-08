@@ -16,9 +16,9 @@ class PluginViewController: UITableViewController {
     fileprivate let viewModel: PluginViewModel
     var viewModelListener: FluxListener?
 
-    init(plugin: PluginState, capabilities: SitePluginCapabilities, siteID: Int) {
+    init(plugin: PluginState, capabilities: SitePluginCapabilities, site: SiteRef) {
         self.plugin = plugin
-        viewModel = PluginViewModel(plugin: plugin, capabilities: capabilities, siteID: siteID)
+        viewModel = PluginViewModel(plugin: plugin, capabilities: capabilities, site: site)
         super.init(style: .grouped)
         viewModel.present = { [weak self] viewController in
             self?.present(viewController, animated: true)

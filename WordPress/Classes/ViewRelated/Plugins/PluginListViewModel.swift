@@ -11,7 +11,7 @@ class PluginListViewModel: FluxEmitter {
         case error(String)
     }
 
-    let siteID: Int
+    let site: SiteRef
     let dispatcher = Dispatcher<Void>()
     private var state: State = .loading {
         didSet {
@@ -23,15 +23,15 @@ class PluginListViewModel: FluxEmitter {
     private var listener: FluxListener?
     private var dispatchToken: FluxDispatcher.DispatchToken?
 
-    init(siteID: Int, store: PluginStore = StoreContainer.shared.plugin) {
-        self.siteID = siteID
+    init(site: SiteRef, store: PluginStore = StoreContainer.shared.plugin) {
+        self.site = site
         self.store = store
         listener = store.onChange { [weak self] in
             self?.refreshPlugins()
         }
         dispatchToken = FluxDispatcher.global.register(callback: { [weak self] (action) in
-            guard case PluginAction.receivePluginsFailed(let receivedSiteID, let error) = action,
-                case receivedSiteID = siteID else {
+            guard case PluginAction.receivePluginsFailed(let receivedSite, let error) = action,
+                case receivedSite = site else {
                     return
             }
             self?.state = .error(error.localizedDescription)
@@ -88,7 +88,7 @@ class PluginListViewModel: FluxEmitter {
     }
 
     private func refreshPlugins() {
-        guard let plugins = store.getPlugins(siteID: siteID) else {
+        guard let plugins = store.getPlugins(site: site) else {
             return
         }
         state = .ready(plugins)

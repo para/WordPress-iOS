@@ -1,22 +1,23 @@
 import Foundation
 
 enum PluginAction: FluxAction {
-    case activate(id: String, siteID: Int)
-    case deactivate(id: String, siteID: Int)
-    case enableAutoupdates(id: String, siteID: Int)
-    case disableAutoupdates(id: String, siteID: Int)
-    case remove(id: String, siteID: Int)
-    case receivePlugins(siteID: Int, plugins: SitePlugins)
-    case receivePluginsFailed(siteID: Int, error: Error)
+    case activate(id: String, site: SiteRef)
+    case deactivate(id: String, site: SiteRef)
+    case enableAutoupdates(id: String, site: SiteRef)
+    case disableAutoupdates(id: String, site: SiteRef)
+    case remove(id: String, site: SiteRef)
+    case receivePlugins(site: SiteRef, plugins: SitePlugins)
+    case receivePluginsFailed(site: SiteRef, error: Error)
 }
 
 class PluginStore: FluxStore {
-    fileprivate var plugins = [Int: SitePlugins]() {
+    fileprivate var plugins = [SiteRef: SitePlugins]() {
         didSet {
             emitChange()
         }
     }
-    fileprivate var fetching = [Int: Bool]()
+    fileprivate var fetching = [SiteRef: Bool]()
+    fileprivate let accounts = AccountDatabase(context: ContextManager.sharedInstance().mainContext)
 
     func removeListener(_ listener: FluxListener) {
         super.removeListener(listener)
@@ -26,16 +27,16 @@ class PluginStore: FluxStore {
         }
     }
 
-    func getPlugins(siteID: Int) -> SitePlugins? {
-        if let sitePlugins = plugins[siteID] {
+    func getPlugins(site: SiteRef) -> SitePlugins? {
+        if let sitePlugins = plugins[site] {
             return sitePlugins
         }
-        fetchPlugins(siteID: siteID)
+        fetchPlugins(site: site)
         return nil
     }
 
-    func getPlugin(id: String, siteID: Int) -> PluginState? {
-        guard let sitePlugins = getPlugins(siteID: siteID) else {
+    func getPlugin(id: String, site: SiteRef) -> PluginState? {
+        guard let sitePlugins = getPlugins(site: site) else {
             return nil
         }
         return sitePlugins.plugins.first(where: { $0.id == id })
@@ -46,143 +47,143 @@ class PluginStore: FluxStore {
             return
         }
         switch pluginAction {
-        case .activate(let pluginID, let siteID):
-            activatePlugin(pluginID: pluginID, siteID: siteID)
-        case .deactivate(let pluginID, let siteID):
-            deactivatePlugin(pluginID: pluginID, siteID: siteID)
-        case .enableAutoupdates(let pluginID, let siteID):
-            enableAutoupdatesPlugin(pluginID: pluginID, siteID: siteID)
-        case .disableAutoupdates(let pluginID, let siteID):
-            disableAutoupdatesPlugin(pluginID: pluginID, siteID: siteID)
-        case .remove(let pluginID, let siteID):
-            removePlugin(pluginID: pluginID, siteID: siteID)
-        case .receivePlugins(let siteID, let plugins):
-            receivePlugins(siteID: siteID, plugins: plugins)
-        case .receivePluginsFailed(let siteID, _):
-            fetching[siteID] = false
+        case .activate(let pluginID, let site):
+            activatePlugin(pluginID: pluginID, site: site)
+        case .deactivate(let pluginID, let site):
+            deactivatePlugin(pluginID: pluginID, site: site)
+        case .enableAutoupdates(let pluginID, let site):
+            enableAutoupdatesPlugin(pluginID: pluginID, site: site)
+        case .disableAutoupdates(let pluginID, let site):
+            disableAutoupdatesPlugin(pluginID: pluginID, site: site)
+        case .remove(let pluginID, let site):
+            removePlugin(pluginID: pluginID, site: site)
+        case .receivePlugins(let site, let plugins):
+            receivePlugins(site: site, plugins: plugins)
+        case .receivePluginsFailed(let site, _):
+            fetching[site] = false
         }
     }
 }
 
 private extension PluginStore {
-    func activatePlugin(pluginID: String, siteID: Int) {
-        modifyPlugin(id: pluginID, siteID: siteID) { (plugin) in
+    func activatePlugin(pluginID: String, site: SiteRef) {
+        modifyPlugin(id: pluginID, site: site) { (plugin) in
             plugin.active = true
         }
-        remote?.activatePlugin(
+        remote(site: site)?.activatePlugin(
             pluginID: pluginID,
-            siteID: siteID,
+            siteID: site.siteID,
             success: {},
             failure: { [weak self] _ in
-                self?.modifyPlugin(id: pluginID, siteID: siteID, change: { (plugin) in
+                self?.modifyPlugin(id: pluginID, site: site, change: { (plugin) in
                     plugin.active = false
                 })
         })
     }
 
-    func deactivatePlugin(pluginID: String, siteID: Int) {
-        modifyPlugin(id: pluginID, siteID: siteID) { (plugin) in
+    func deactivatePlugin(pluginID: String, site: SiteRef) {
+        modifyPlugin(id: pluginID, site: site) { (plugin) in
             plugin.active = false
         }
-        remote?.deactivatePlugin(
+        remote(site: site)?.deactivatePlugin(
             pluginID: pluginID,
-            siteID: siteID,
+            siteID: site.siteID,
             success: {},
             failure: { [weak self] _ in
-                self?.modifyPlugin(id: pluginID, siteID: siteID, change: { (plugin) in
+                self?.modifyPlugin(id: pluginID, site: site, change: { (plugin) in
                     plugin.active = true
                 })
         })
     }
 
-    func enableAutoupdatesPlugin(pluginID: String, siteID: Int) {
-        modifyPlugin(id: pluginID, siteID: siteID) { (plugin) in
+    func enableAutoupdatesPlugin(pluginID: String, site: SiteRef) {
+        modifyPlugin(id: pluginID, site: site) { (plugin) in
             plugin.autoupdate = true
         }
-        remote?.enableAutoupdates(
+        remote(site: site)?.enableAutoupdates(
             pluginID: pluginID,
-            siteID: siteID,
+            siteID: site.siteID,
             success: {},
             failure: { [weak self] _ in
-                self?.modifyPlugin(id: pluginID, siteID: siteID, change: { (plugin) in
+                self?.modifyPlugin(id: pluginID, site: site, change: { (plugin) in
                     plugin.autoupdate = false
                 })
         })
     }
 
-    func disableAutoupdatesPlugin(pluginID: String, siteID: Int) {
-        modifyPlugin(id: pluginID, siteID: siteID) { (plugin) in
+    func disableAutoupdatesPlugin(pluginID: String, site: SiteRef) {
+        modifyPlugin(id: pluginID, site: site) { (plugin) in
             plugin.autoupdate = false
         }
-        remote?.disableAutoupdates(
+        remote(site: site)?.disableAutoupdates(
             pluginID: pluginID,
-            siteID: siteID,
+            siteID: site.siteID,
             success: {},
             failure: { [weak self] _ in
-                self?.modifyPlugin(id: pluginID, siteID: siteID, change: { (plugin) in
+                self?.modifyPlugin(id: pluginID, site: site, change: { (plugin) in
                     plugin.autoupdate = true
                 })
         })
     }
 
-    func removePlugin(pluginID: String, siteID: Int) {
-        guard let sitePlugins = plugins[siteID],
+    func removePlugin(pluginID: String, site: SiteRef) {
+        guard let sitePlugins = plugins[site],
             let index = sitePlugins.plugins.index(where: { $0.id == pluginID }) else {
                 return
         }
-        plugins[siteID]?.plugins.remove(at: index)
+        plugins[site]?.plugins.remove(at: index)
         emitChange()
-        remote?.remove(
+        remote(site: site)?.remove(
             pluginID: pluginID,
-            siteID: siteID,
+            siteID: site.siteID,
             success: {},
             failure: { [weak self] _ in
-                _ = self?.getPlugins(siteID: siteID)
+                _ = self?.getPlugins(site: site)
         })
     }
 
-    func modifyPlugin(id: String, siteID: Int, change: (inout PluginState) -> Void) {
-        guard let sitePlugins = plugins[siteID],
+    func modifyPlugin(id: String, site: SiteRef, change: (inout PluginState) -> Void) {
+        guard let sitePlugins = plugins[site],
             let index = sitePlugins.plugins.index(where: { $0.id == id }) else {
                 return
         }
         var plugin = sitePlugins.plugins[index]
         change(&plugin)
-        plugins[siteID]?.plugins[index] = plugin
+        plugins[site]?.plugins[index] = plugin
         emitChange()
     }
 
-    func fetchPlugins(siteID: Int) {
-        guard !fetching[siteID, default: false],
-            let remote = remote else {
+    func fetchPlugins(site: SiteRef) {
+        guard !fetching[site, default: false],
+            let remote = remote(site: site) else {
                 return
         }
-        fetching[siteID] = true
+        fetching[site] = true
         remote.getPlugins(
-            siteID: siteID,
+            siteID: site.siteID,
             success: { [globalDispatcher] (plugins) in
-                globalDispatcher.dispatch(PluginAction.receivePlugins(siteID: siteID, plugins: plugins))
+                globalDispatcher.dispatch(PluginAction.receivePlugins(site: site, plugins: plugins))
             },
             failure: { [globalDispatcher] (error) in
-                globalDispatcher.dispatch(PluginAction.receivePluginsFailed(siteID: siteID, error: error))
+                globalDispatcher.dispatch(PluginAction.receivePluginsFailed(site: site, error: error))
         })
     }
 
-    func receivePlugins(siteID: Int, plugins: SitePlugins) {
-        self.plugins[siteID] = plugins
-        fetching[siteID] = false
+    func receivePlugins(site: SiteRef, plugins: SitePlugins) {
+        self.plugins[site] = plugins
+        fetching[site] = false
     }
 
-    func receivePluginsFailed(siteID: Int) {
-        fetching[siteID] = false
+    func receivePluginsFailed(site: SiteRef) {
+        fetching[site] = false
     }
 
-    var remote: PluginServiceRemote? {
-        let context = ContextManager.sharedInstance().mainContext
-        let service = AccountService(managedObjectContext: context)
-        guard let account = service.defaultWordPressComAccount() else {
+    func remote(site: SiteRef) -> PluginServiceRemote? {
+        guard let token = accounts.account(id: site.accountID)?.token else {
             return nil
         }
-        return PluginServiceRemote(wordPressComRestApi: account.wordPressComRestApi)
+        let api = WordPressComRestApi(oAuthToken: token, userAgent: WPUserAgent.wordPress())
+        return PluginServiceRemote(wordPressComRestApi: api)
+    }
     }
 }

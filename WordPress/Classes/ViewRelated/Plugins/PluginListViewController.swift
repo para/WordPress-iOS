@@ -2,7 +2,7 @@ import UIKit
 import WordPressKit
 
 class PluginListViewController: UITableViewController, ImmuTablePresenter {
-    let siteID: Int
+    let site: SiteRef
 
     fileprivate lazy var handler: ImmuTableViewHandler = {
         return ImmuTableViewHandler(takeOver: self)
@@ -13,9 +13,9 @@ class PluginListViewController: UITableViewController, ImmuTablePresenter {
     fileprivate let noResultsView = WPNoResultsView()
     var viewModelListener: FluxListener?
 
-    init(siteID: Int, store: PluginStore = StoreContainer.shared.plugin) {
-        self.siteID = siteID
-        viewModel = PluginListViewModel(siteID: siteID, store: store)
+    init(site: SiteRef, store: PluginStore = StoreContainer.shared.plugin) {
+        self.site = site
+        viewModel = PluginListViewModel(site: site, store: store)
 
         super.init(style: .grouped)
 
@@ -29,8 +29,12 @@ class PluginListViewController: UITableViewController, ImmuTablePresenter {
 
     convenience init?(blog: Blog) {
         precondition(blog.dotComID != nil)
+        precondition(blog.account?.userID != nil)
 
-        self.init(siteID: Int(blog.dotComID!))
+        guard let site = SiteRef(blog: blog) else {
+            return nil
+        }
+        self.init(site: site)
     }
 
     override func viewDidLoad() {
@@ -83,7 +87,7 @@ extension PluginListViewController: WPNoResultsViewDelegate {
 
 extension PluginListViewController: PluginPresenter {
     func present(plugin: PluginState, capabilities: SitePluginCapabilities) {
-        let controller = PluginViewController(plugin: plugin, capabilities: capabilities, siteID: siteID)
+        let controller = PluginViewController(plugin: plugin, capabilities: capabilities, site: site)
         navigationController?.pushViewController(controller, animated: true)
     }
 }
