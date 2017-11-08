@@ -74,6 +74,11 @@ class AccountDatabase: NSObject, FluxEmitter {
         return state.secondary.first(where: { $0.id == id })
     }
 
+    func all() -> [Account] {
+        return state.current.map({ [$0] }) ?? []
+            + state.secondary
+    }
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let observedDefaults = object as? UserDefaults,
             observedDefaults == defaults,

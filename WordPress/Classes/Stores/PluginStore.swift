@@ -18,6 +18,14 @@ class PluginStore: FluxStore {
     }
     fileprivate var fetching = [SiteRef: Bool]()
     fileprivate let accounts = AccountDatabase(context: ContextManager.sharedInstance().mainContext)
+    var accountsListener: FluxListener?
+
+    override init(dispatcher: FluxDispatcher = .global) {
+        super.init(dispatcher: dispatcher)
+        accountsListener = accounts.onChange { [weak self] in
+            self?.invalidatePluginsForMissingAccounts()
+        }
+    }
 
     func removeListener(_ listener: FluxListener) {
         super.removeListener(listener)
@@ -185,5 +193,20 @@ private extension PluginStore {
         let api = WordPressComRestApi(oAuthToken: token, userAgent: WPUserAgent.wordPress())
         return PluginServiceRemote(wordPressComRestApi: api)
     }
+
+    func invalidatePluginsForMissingAccounts() {
+        let accountIDs = Set(accounts.all().map({ $0.id }))
+        plugins
+            .keys
+            .filter({ !accountIDs.contains($0.accountID) })
+            .forEach { (site) in
+                plugins.removeValue(forKey: site)
+            }
+        fetching
+            .keys
+            .filter({ !accountIDs.contains($0.accountID) })
+            .forEach { (site) in
+                fetching.removeValue(forKey: site)
+            }
     }
 }
