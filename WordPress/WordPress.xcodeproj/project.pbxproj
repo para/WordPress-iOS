@@ -719,6 +719,7 @@
 		E15027621E03E51500B847E3 /* notes-action-push.json in Resources */ = {isa = PBXBuildFile; fileRef = E150275F1E03E51500B847E3 /* notes-action-push.json */; };
 		E15027631E03E51500B847E3 /* notes-action-unsupported.json in Resources */ = {isa = PBXBuildFile; fileRef = E15027601E03E51500B847E3 /* notes-action-unsupported.json */; };
 		E15027651E03E54100B847E3 /* PinghubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15027641E03E54100B847E3 /* PinghubTests.swift */; };
+		E150BB1C1FAC6C0F001BD4D1 /* PluginStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150BB1B1FAC6C0F001BD4D1 /* PluginStoreTests.swift */; };
 		E151C0C61F3889DF00710A83 /* PluginListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E151C0C51F3889DF00710A83 /* PluginListRow.swift */; };
 		E151C0C81F388A2000710A83 /* PluginListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E151C0C71F388A2000710A83 /* PluginListViewModel.swift */; };
 		E1556CF2193F6FE900FC52EA /* CommentService.m in Sources */ = {isa = PBXBuildFile; fileRef = E1556CF1193F6FE900FC52EA /* CommentService.m */; };
@@ -2092,6 +2093,7 @@
 		E150520B16CAC5C400D3DDDC /* BlogJetpackTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlogJetpackTest.m; sourceTree = "<group>"; };
 		E150520D16CAC75A00D3DDDC /* CoreDataTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTestHelper.h; sourceTree = "<group>"; };
 		E150520E16CAC75A00D3DDDC /* CoreDataTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTestHelper.m; sourceTree = "<group>"; };
+		E150BB1B1FAC6C0F001BD4D1 /* PluginStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginStoreTests.swift; sourceTree = "<group>"; };
 		E151C0C51F3889DF00710A83 /* PluginListRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginListRow.swift; sourceTree = "<group>"; };
 		E151C0C71F388A2000710A83 /* PluginListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginListViewModel.swift; sourceTree = "<group>"; };
 		E1556CF0193F6FE900FC52EA /* CommentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentService.h; sourceTree = "<group>"; };
@@ -4757,6 +4759,7 @@
 				59ECF8791CB705EB00E68F25 /* Posts */,
 				E6B9B8AB1B94EA710001B92F /* Reader */,
 				B5AEEC7E1ACAD088008BF2A4 /* Services */,
+				E150BB1A1FAC6BEE001BD4D1 /* Stores */,
 				BEA0E4821BD8353B000AEE81 /* System */,
 				59B48B601B99E0B0008EBB84 /* TestUtilities */,
 				852416D01A12ED2D0030700C /* Utility */,
@@ -4830,6 +4833,14 @@
 				E126C81E1F95FC1B00A5F464 /* PluginViewController.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		E150BB1A1FAC6BEE001BD4D1 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				E150BB1B1FAC6C0F001BD4D1 /* PluginStoreTests.swift */,
+			);
+			name = Stores;
 			sourceTree = "<group>";
 		};
 		E151C0C41F3889CA00710A83 /* ViewModels */ = {
@@ -6879,6 +6890,7 @@
 				5948AD111AB73D19006E8882 /* WPAppAnalyticsTests.m in Sources */,
 				85D239C01AE5A7020074768D /* LoginFacadeTests.m in Sources */,
 				FF8032661EE9E22200861F28 /* MediaProgressCoordinatorTests.swift in Sources */,
+				E150BB1C1FAC6C0F001BD4D1 /* PluginStoreTests.swift in Sources */,
 				E6B0468B1F0FEC410079F9FA /* EmailFormatValidatorTests.swift in Sources */,
 				E63C897C1CB9A0D700649C8F /* UITextFieldTextHelperTests.swift in Sources */,
 				E15027651E03E54100B847E3 /* PinghubTests.swift in Sources */,

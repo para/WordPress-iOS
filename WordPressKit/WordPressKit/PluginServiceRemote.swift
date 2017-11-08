@@ -1,6 +1,6 @@
 import Foundation
 
-public class PluginServiceRemote: ServiceRemoteWordPressComREST {
+open class PluginServiceRemote: ServiceRemoteWordPressComREST {
     public enum ResponseError: Error {
         case decodingFailure
         case invalidInputError
@@ -8,7 +8,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         case unknownError
     }
 
-    public func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) {
+    open func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plugins"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)!
         let parameters = [String: AnyObject]()
@@ -30,35 +30,35 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-    public func activatePlugin(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    open func activatePlugin(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let parameters = [
             "active": "true"
             ] as [String: AnyObject]
         updatePlugin(parameters: parameters, pluginID: pluginID, siteID: siteID, success: success, failure: failure)
     }
 
-    public func deactivatePlugin(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    open func deactivatePlugin(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let parameters = [
             "active": "false"
             ] as [String: AnyObject]
         updatePlugin(parameters: parameters, pluginID: pluginID, siteID: siteID, success: success, failure: failure)
     }
 
-    public func enableAutoupdates(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    open func enableAutoupdates(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let parameters = [
             "autoupdate": "true"
             ] as [String: AnyObject]
         updatePlugin(parameters: parameters, pluginID: pluginID, siteID: siteID, success: success, failure: failure)
     }
 
-    public func disableAutoupdates(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    open func disableAutoupdates(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let parameters = [
             "autoupdate": "false"
             ] as [String: AnyObject]
         updatePlugin(parameters: parameters, pluginID: pluginID, siteID: siteID, success: success, failure: failure)
     }
 
-    public func remove(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    open func remove(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         guard let escapedPluginID = encoded(pluginID: pluginID) else {
             return
         }
@@ -75,8 +75,10 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             }
         )
     }
+}
 
-    private func updatePlugin(parameters: [String: AnyObject], pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+fileprivate extension PluginServiceRemote {
+    func updatePlugin(parameters: [String: AnyObject], pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         guard let escapedPluginID = encoded(pluginID: pluginID) else {
             return
         }
@@ -93,9 +95,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
                 failure(error)
             })
     }
-}
 
-fileprivate extension PluginServiceRemote {
     func encoded(pluginID: String) -> String? {
         let allowedCharacters = CharacterSet.urlPathAllowed.subtracting(CharacterSet(charactersIn: "/"))
         guard let escapedPluginID = pluginID.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else {

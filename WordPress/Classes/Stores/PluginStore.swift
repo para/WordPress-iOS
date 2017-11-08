@@ -17,6 +17,7 @@ class PluginStore: FluxStore {
         }
     }
     fileprivate var fetching = [Int: Bool]()
+    var _testingRemote: PluginServiceRemote?
 
     func removeListener(_ listener: FluxListener) {
         super.removeListener(listener)
@@ -178,6 +179,9 @@ private extension PluginStore {
     }
 
     var remote: PluginServiceRemote? {
+        if let remote = _testingRemote {
+            return remote
+        }
         let context = ContextManager.sharedInstance().mainContext
         let service = AccountService(managedObjectContext: context)
         guard let account = service.defaultWordPressComAccount() else {
