@@ -16,7 +16,7 @@ class PluginStore: FluxStore {
             emitChange()
         }
     }
-    fileprivate var fetching = [SiteRef: Bool]()
+    fileprivate var fetching = [SiteRef: Progress]()
     fileprivate let accounts = AccountDatabase(context: ContextManager.sharedInstance().mainContext)
     var accountsListener: FluxListener?
 
@@ -68,7 +68,7 @@ class PluginStore: FluxStore {
         case .receivePlugins(let site, let plugins):
             receivePlugins(site: site, plugins: plugins)
         case .receivePluginsFailed(let site, _):
-            fetching[site] = false
+            break
         }
     }
 }
@@ -162,12 +162,11 @@ private extension PluginStore {
     }
 
     func fetchPlugins(site: SiteRef) {
-        guard !fetching[site, default: false],
+        guard fetching[site] == nil,
             let remote = remote(site: site) else {
                 return
         }
-        fetching[site] = true
-        remote.getPlugins(
+        fetching[site] = remote.getPlugins(
             siteID: site.siteID,
             success: { [globalDispatcher] (plugins) in
                 globalDispatcher.dispatch(PluginAction.receivePlugins(site: site, plugins: plugins))
@@ -179,11 +178,11 @@ private extension PluginStore {
 
     func receivePlugins(site: SiteRef, plugins: SitePlugins) {
         self.plugins[site] = plugins
-        fetching[site] = false
+        fetching[site] = nil
     }
 
     func receivePluginsFailed(site: SiteRef) {
-        fetching[site] = false
+        fetching[site] = nil
     }
 
     func remote(site: SiteRef) -> PluginServiceRemote? {
@@ -200,13 +199,14 @@ private extension PluginStore {
             .keys
             .filter({ !accountIDs.contains($0.accountID) })
             .forEach { (site) in
-                plugins.removeValue(forKey: site)
+                plugins[site] = nil
             }
         fetching
             .keys
             .filter({ !accountIDs.contains($0.accountID) })
             .forEach { (site) in
-                fetching.removeValue(forKey: site)
+                fetching[site]?.cancel()
+                fetching[site] = nil
             }
     }
 }

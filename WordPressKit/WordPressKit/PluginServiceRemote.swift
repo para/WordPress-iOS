@@ -8,12 +8,12 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         case unknownError
     }
 
-    public func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) {
+    public func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) -> Progress? {
         let endpoint = "sites/\(siteID)/plugins"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)!
         let parameters = [String: AnyObject]()
 
-        wordPressComRestApi.GET(path, parameters: parameters, success: { (responseObject, httpResponse) in
+        return wordPressComRestApi.GET(path, parameters: parameters, success: { (responseObject, httpResponse) in
             guard let response = responseObject as? [String: AnyObject] else {
                 failure(ResponseError.decodingFailure)
                 return
