@@ -156,9 +156,9 @@ class PortfolioListViewController: AbstractPostListViewController, UIViewControl
 
     // MARK: - Model Interaction
 
-    fileprivate func projectAtIndexPath(_ indexPath: IndexPath) -> Project {
-        guard let project = tableViewHandler.resultsController.object(at: indexPath) as? Project else {
-            fatalError("Expected a Project object.")
+    fileprivate func projectAtIndexPath(_ indexPath: IndexPath) -> PortfolioProject {
+        guard let project = tableViewHandler.resultsController.object(at: indexPath) as? PortfolioProject else {
+            fatalError("Expected a PortfolioProject object.")
         }
 
         return project
@@ -167,7 +167,7 @@ class PortfolioListViewController: AbstractPostListViewController, UIViewControl
     // MARK: - TableView Handler Delegate Methods
 
     override func entityName() -> String {
-        return String(describing: Project.self)
+        return String(describing: PortfolioProject.self)
     }
 
     override func predicateForFetchRequest() -> NSPredicate {
@@ -205,7 +205,7 @@ class PortfolioListViewController: AbstractPostListViewController, UIViewControl
 
     func sectionNameKeyPath() -> String {
         let sortField = filterSettings.currentPostListFilter().sortField
-        return Project.sectionIdentifier(dateKeyPath: sortField.keyPath)
+        return PortfolioProject.sectionIdentifier(dateKeyPath: sortField.keyPath)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -287,7 +287,7 @@ class PortfolioListViewController: AbstractPostListViewController, UIViewControl
         cell.configureCell(project)
     }
 
-    fileprivate func cellIdentifierForProject(_ project: Project) -> String {
+    fileprivate func cellIdentifierForProject(_ project: PortfolioProject) -> String {
         var identifier: String
 
         if recentlyTrashedPostObjectIDs.contains(project.objectID) == true && filterSettings.currentPostListFilter().filterType != .trashed {
@@ -415,7 +415,7 @@ class PortfolioListViewController: AbstractPostListViewController, UIViewControl
         }
     }
 
-    fileprivate func projectForObjectID(_ objectID: NSManagedObjectID) -> Project? {
+    fileprivate func projectForObjectID(_ objectID: NSManagedObjectID) -> PortfolioProject? {
 
         var projectManagedObject: NSManagedObject
 
@@ -430,7 +430,7 @@ class PortfolioListViewController: AbstractPostListViewController, UIViewControl
             return nil
         }
 
-        let project = projectManagedObject as? Project
+        let project = projectManagedObject as? PortfolioProject
         return project
     }
 

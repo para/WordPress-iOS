@@ -63,17 +63,17 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
     return page;
 }
 
-- (Project *)createProjectForBlog:(Blog *)blog {
+- (PortfolioProject *)createProjectForBlog:(Blog *)blog {
     NSAssert(self.managedObjectContext == blog.managedObjectContext, @"Blog's context should be the the same as the service's");
-    Project *project = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Project class]) inManagedObjectContext:self.managedObjectContext];
+    PortfolioProject *project = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PortfolioProject class]) inManagedObjectContext:self.managedObjectContext];
     project.blog = blog;
     project.date_created_gmt = [NSDate date];
     project.remoteStatus = AbstractPostRemoteStatusSync;
     return project;
 }
 
-- (Project *)createDraftProjectForBlog:(Blog *)blog {
-    Project *project = [self createProjectForBlog:blog];
+- (PortfolioProject *)createDraftProjectForBlog:(Blog *)blog {
+    PortfolioProject *project = [self createProjectForBlog:blog];
     [self initializeDraft:project];
     return project;
 }
@@ -486,7 +486,7 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
             request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([Page class])];
         } else if ([syncPostType isEqualToString:PostServiceTypeProject]) {
             // If syncing "project" posts, set up the fetch for any Project entities.
-            request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([Project class])];
+            request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([PortfolioProject class])];
         } else {
             // If not syncing "page", "project", or "any" post, use the Post entity.
             request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([Post class])];

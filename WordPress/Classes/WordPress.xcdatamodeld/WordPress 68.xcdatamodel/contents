@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="17B48" minimumToolsVersion="Xcode 7.3" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="17B1003" minimumToolsVersion="Xcode 7.3" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AbstractPost" representedClassName="AbstractPost" isAbstract="YES" parentEntity="BasePost">
         <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="metaIsLocal" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
@@ -407,6 +407,11 @@
         <attribute name="userID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="username" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="PortfolioProject" representedClassName="PortfolioProject" parentEntity="AbstractPost">
+        <attribute name="projectTags" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="projectTypes" optional="YES" attributeType="String" syncable="YES"/>
+        <userInfo/>
+    </entity>
     <entity name="Post" representedClassName="Post" parentEntity="AbstractPost">
         <attribute name="commentCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="disabledPublicizeConnections" optional="YES" attributeType="Transformable">
@@ -457,9 +462,6 @@
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="blog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Blog" inverseName="postTypes" inverseEntity="Blog" syncable="YES"/>
-    </entity>
-    <entity name="Project" representedClassName="Project" parentEntity="AbstractPost">
-        <userInfo/>
     </entity>
     <entity name="PublicizeConnection" representedClassName="WordPress.PublicizeConnection" syncable="YES">
         <attribute name="connectionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
@@ -665,7 +667,7 @@
         <element name="Post" positionX="0" positionY="0" width="128" height="240"/>
         <element name="PostTag" positionX="27" positionY="153" width="128" height="105"/>
         <element name="PostType" positionX="27" positionY="153" width="128" height="105"/>
-        <element name="Project" positionX="36" positionY="162" width="128" height="45"/>
+        <element name="PortfolioProject" positionX="36" positionY="162" width="128" height="75"/>
         <element name="PublicizeConnection" positionX="27" positionY="162" width="128" height="330"/>
         <element name="PublicizeService" positionX="18" positionY="153" width="128" height="195"/>
         <element name="ReaderAbstractTopic" positionX="9" positionY="153" width="128" height="180"/>

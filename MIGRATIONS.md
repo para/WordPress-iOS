@@ -3,6 +3,11 @@
 This file documents changes in the data model. Please explain any changes to the
 data model as well as any custom migrations.
 
+## WordPress 68
+- @albeguarino 2017-12-05
+- `Blog` added `portfolioEnabled`.
+- Added `PortfolioProject` entity.
+
 ## WordPress 67
 - @3vangelos 2017-09-26
 - `Media` added `alt` string property. Stores the information for an html alt tag for images.

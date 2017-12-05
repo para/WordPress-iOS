@@ -157,6 +157,23 @@ extension Date {
             return DateFormatters.pageSectionFormatter.string(forTimeInterval: interval)
         }
     }
+
+    public func toStringForPortfolioSections() -> String {
+        let interval = timeIntervalSinceNow
+        let day = 86400.0
+
+        if interval > 0 {
+            return NSLocalizedString("later", comment: "A date in the future")
+        } else if interval > -7 * day {
+            return NSLocalizedString("recent", comment: "A recent date, within this week")
+        } else if interval > -14 * day {
+            return NSLocalizedString("last week", comment: "A date belonging to last week")
+        } else if interval > -30 * day {
+            return NSLocalizedString("last month", comment: "A date belonging to last month")
+        } else {
+            return NSLocalizedString("before", comment: "A date before last month")
+        }
+    }
 }
 
 extension NSDate {
