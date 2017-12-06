@@ -571,6 +571,10 @@ const NSUInteger PostServiceDefaultNumberToSync = 40;
     if ([post isKindOfClass:[Page class]]) {
         Page *pagePost = (Page *)post;
         pagePost.parentID = remotePost.parentID;
+    } else if ([post isKindOfClass:[PortfolioProject class]]) {
+        PortfolioProject *projectPost = (PortfolioProject *)post;
+        projectPost.projectTags = [remotePost.projectTags componentsJoinedByString:@","];
+        projectPost.projectTypes = [remotePost.projectTypes componentsJoinedByString:@","];
     } else if ([post isKindOfClass:[Post class]]) {
         Post *postPost = (Post *)post;
         postPost.commentCount = remotePost.commentCount;
