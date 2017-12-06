@@ -158,20 +158,23 @@ extension Date {
         }
     }
 
+    /// Formats the current date as a section identifier for a table of
+    /// `PortfolioProject` items
+    ///
     public func toStringForPortfolioSections() -> String {
         let interval = timeIntervalSinceNow
         let day = 86400.0
 
         if interval > 0 {
             return NSLocalizedString("later", comment: "A date in the future")
+        } else if interval >= -2 * day {
+            return NSLocalizedString("recent", comment: "A recent date, no more than 2 days ago")
         } else if interval > -7 * day {
-            return NSLocalizedString("recent", comment: "A recent date, within this week")
-        } else if interval > -14 * day {
-            return NSLocalizedString("last week", comment: "A date belonging to last week")
+            return NSLocalizedString("last 7 days", comment: "A date no more than 7 days ago")
         } else if interval > -30 * day {
-            return NSLocalizedString("last month", comment: "A date belonging to last month")
+            return NSLocalizedString("last 30 days", comment: "A date no more than 30 days ago")
         } else {
-            return NSLocalizedString("before", comment: "A date before last month")
+            return NSLocalizedString("earlier", comment: "A date earlier than 30 days ago")
         }
     }
 }
@@ -220,5 +223,9 @@ extension NSDate {
 
     @objc public func toStringForPageSections() -> String {
         return (self as Date).toStringForPageSections()
+    }
+
+    @objc public func toStringForPortfolioSections() -> String {
+        return (self as Date).toStringForPortfolioSections()
     }
 }
