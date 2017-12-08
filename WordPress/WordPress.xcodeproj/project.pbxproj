@@ -321,6 +321,7 @@
 		722F5726ACB4A276B0CF3C83 /* Pods_WordPress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 556E3A9C1600564F6A3CADF6 /* Pods_WordPress.framework */; };
 		7280766E1FD57BA40075ABA6 /* PortfolioProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7280766D1FD57BA40075ABA6 /* PortfolioProject.swift */; };
 		728076701FD57BBB0075ABA6 /* PortfolioProject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7280766F1FD57BBB0075ABA6 /* PortfolioProject+CoreDataProperties.swift */; };
+		72C20FFA1FDAD4170080ADB2 /* PortfolioListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C20FF91FDAD4170080ADB2 /* PortfolioListViewController.swift */; };
 		740BD8351A0D4C3600F04D18 /* WPUploadStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 740BD8341A0D4C3600F04D18 /* WPUploadStatusButton.m */; };
 		742C79981E5F511C00DB1608 /* DeleteSiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C79971E5F511C00DB1608 /* DeleteSiteViewController.swift */; };
 		7430C4491F97F23600E2673E /* ShareMediaFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430C4481F97F23600E2673E /* ShareMediaFileManager.swift */; };
@@ -1526,6 +1527,7 @@
 		727D2C941FD198830091F0A0 /* WordPress 68.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WordPress 68.xcdatamodel"; sourceTree = "<group>"; };
 		7280766D1FD57BA40075ABA6 /* PortfolioProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioProject.swift; sourceTree = "<group>"; };
 		7280766F1FD57BBB0075ABA6 /* PortfolioProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PortfolioProject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		72C20FF91FDAD4170080ADB2 /* PortfolioListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListViewController.swift; sourceTree = "<group>"; };
 		740BD8331A0D4C3600F04D18 /* WPUploadStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPUploadStatusButton.h; sourceTree = "<group>"; };
 		740BD8341A0D4C3600F04D18 /* WPUploadStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPUploadStatusButton.m; sourceTree = "<group>"; };
 		742C79971E5F511C00DB1608 /* DeleteSiteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteSiteViewController.swift; sourceTree = "<group>"; };
@@ -3447,6 +3449,14 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		72C20FF81FDAD2810080ADB2 /* Portfolio */ = {
+			isa = PBXGroup;
+			children = (
+				72C20FF91FDAD4170080ADB2 /* PortfolioListViewController.swift */,
+			);
+			path = Portfolio;
+			sourceTree = "<group>";
+		};
 		7430C4471F97F0DA00E2673E /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3588,6 +3598,7 @@
 				E1B9127F1BB00EF1003C25B9 /* People */,
 				E1389AD91C59F78500FB2466 /* Plans */,
 				E14694041F3459A9004052C8 /* Plugins */,
+				72C20FF81FDAD2810080ADB2 /* Portfolio */,
 				AC3439790E11434600E5D79B /* Post */,
 				8298F38D1EEF2B15008EB7F0 /* Ratings */,
 				CCB3A03814C8DD5100D43C3F /* Reader */,
@@ -6441,6 +6452,7 @@
 				E6A09BA61C4492DC008626FB /* SharingAuthorizationWebViewController.m in Sources */,
 				E64E17641CA8493200BE7744 /* NUXNavigationController.swift in Sources */,
 				5D6C4B091B603E03005E3C43 /* WPTableViewHandler.m in Sources */,
+				72C20FFA1FDAD4170080ADB2 /* PortfolioListViewController.swift in Sources */,
 				834CAE9F122D56B1003DDF49 /* UIImage+Alpha.m in Sources */,
 				1702BBE01CF3034E00766A33 /* DomainsService.swift in Sources */,
 				FF7E510A1FBDE0C500AD2918 /* MediaAttachment+WordPress.swift in Sources */,
