@@ -448,6 +448,13 @@ NSString * const WPCalypsoDashboardPath = @"https://wordpress.com/stats/";
     }
     [rows addObject:row];
 
+    if ([Feature enabled:FeatureFlagPortfolio] && [self.blog.settings portfolioEnabled]) {
+        BlogDetailsRow *row = [[BlogDetailsRow alloc] initWithTitle:NSLocalizedString(@"Portfolio", @"Noun. Title. Links to the blog's Portfolio screen.")
+                                                              image:[Gridicon iconOfType:GridiconTypeFolder]
+                                                           callback:^{}];
+        [rows addObject:row];
+    }
+
     NSString *title = NSLocalizedString(@"Publish", @"Section title for the publish table section in the blog details screen");
     return [[BlogDetailsSection alloc] initWithTitle:title andRows:rows];
 }
